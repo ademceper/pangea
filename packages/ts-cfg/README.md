@@ -1,3 +1,3 @@
-# `@workspace/typescript-config`
+# `@pangea/ts-cfg`
 
 Shared typescript configuration for the workspace.

@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.12",
-    "@workspace/typescript-config": "workspace:*",
+    "@pangea/ts-cfg": "workspace:*",
     "turbo": "^2.8.17",
     "typescript": "5.9.3"
   },

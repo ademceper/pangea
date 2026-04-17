@@ -11,9 +11,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.12
         version: 2.4.12
-      '@workspace/typescript-config':
+      '@pangea/ts-cfg':
         specifier: workspace:*
-        version: link:packages/typescript-config
+        version: link:packages/ts-cfg
       turbo:
         specifier: ^2.8.17
         version: 2.9.6
@@ -23,12 +23,12 @@ importers:
 
   apps/web:
     dependencies:
+      '@pangea/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@phosphor-icons/react':
         specifier: ^2.1.10
         version: 2.1.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@workspace/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       next:
         specifier: 16.1.6
         version: 16.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -42,6 +42,9 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
     devDependencies:
+      '@pangea/ts-cfg':
+        specifier: workspace:*
+        version: link:../../packages/ts-cfg
       '@tailwindcss/postcss':
         specifier: ^4.1.18
         version: 4.1.18
@@ -54,14 +57,11 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
-      '@workspace/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/typescript-config: {}
+  packages/ts-cfg: {}
 
   packages/ui:
     dependencies:
@@ -129,6 +129,9 @@ importers:
         specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
+      '@pangea/ts-cfg':
+        specifier: workspace:*
+        version: link:../ts-cfg
       '@tailwindcss/postcss':
         specifier: ^4.1.18
         version: 4.1.18
@@ -144,9 +147,6 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
-      '@workspace/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
       tailwindcss:
         specifier: ^4.1.18
         version: 4.1.18
