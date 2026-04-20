@@ -7,15 +7,14 @@ import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 
 export default function SamlPostForm(
-  props: PageProps<Extract<KcContext, { pageId: "saml-post-form.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "saml-post-form.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { msgStr, msg } = i18n
   const { samlPost } = kcContext
 
-  const [htmlFormElement, setHtmlFormElement] = useState<HTMLFormElement | null>(
-    null,
-  )
+  const [htmlFormElement, setHtmlFormElement] =
+    useState<HTMLFormElement | null>(null)
 
   useEffect(() => {
     if (htmlFormElement === null) {
@@ -39,7 +38,9 @@ export default function SamlPostForm(
       classes={classes}
       headerNode={msg("saml.post-form.title")}
     >
-      <p className="text-sm text-muted-foreground">{msg("saml.post-form.message")}</p>
+      <p className="text-sm text-muted-foreground">
+        {msg("saml.post-form.message")}
+      </p>
       <form
         name="saml-post-binding"
         method="post"
@@ -47,10 +48,18 @@ export default function SamlPostForm(
         ref={setHtmlFormElement}
       >
         {samlPost.SAMLRequest && (
-          <input type="hidden" name="SAMLRequest" value={samlPost.SAMLRequest} />
+          <input
+            type="hidden"
+            name="SAMLRequest"
+            value={samlPost.SAMLRequest}
+          />
         )}
         {samlPost.SAMLResponse && (
-          <input type="hidden" name="SAMLResponse" value={samlPost.SAMLResponse} />
+          <input
+            type="hidden"
+            name="SAMLResponse"
+            value={samlPost.SAMLResponse}
+          />
         )}
         {samlPost.relayState && (
           <input type="hidden" name="RelayState" value={samlPost.relayState} />
@@ -59,7 +68,7 @@ export default function SamlPostForm(
           <p className="text-sm text-muted-foreground">
             {msg("saml.post-form.js-disabled")}
           </p>
-          <Button type="submit" className="w-full">
+          <Button size="xl" type="submit" className="w-full">
             {msgStr("doContinue")}
           </Button>
         </noscript>

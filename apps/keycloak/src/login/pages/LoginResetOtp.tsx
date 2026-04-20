@@ -6,7 +6,7 @@ import type { I18n } from "../i18n"
 import { KcSubmit } from "../components/kc-form"
 
 export default function LoginResetOtp(
-  props: PageProps<Extract<KcContext, { pageId: "login-reset-otp.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "login-reset-otp.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, messagesPerField, configuredOtpCredentials } = kcContext
@@ -57,7 +57,7 @@ export default function LoginResetOtp(
                   <span className="font-medium">{otpCredential.userLabel}</span>
                 </label>
               </Fragment>
-            ),
+            )
           )}
         </div>
 

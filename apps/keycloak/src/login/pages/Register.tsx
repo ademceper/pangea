@@ -124,6 +124,7 @@ export default function Register(props: RegisterProps) {
         !recaptchaVisible &&
         recaptchaAction !== undefined ? (
           <Button
+            size="xl"
             type="submit"
             className="g-recaptcha w-full"
             data-sitekey={recaptchaSiteKey}
@@ -133,10 +134,7 @@ export default function Register(props: RegisterProps) {
             {msg("doRegister")}
           </Button>
         ) : (
-          <KcSubmit
-            label={msgStr("doRegister")}
-            disabled={isSubmitDisabled}
-          />
+          <KcSubmit label={msgStr("doRegister")} disabled={isSubmitDisabled} />
         )}
       </form>
     </Template>
@@ -149,8 +147,12 @@ function TermsAcceptance(props: {
   areTermsAccepted: boolean
   onAreTermsAcceptedValueChange: (areTermsAccepted: boolean) => void
 }) {
-  const { i18n, messagesPerField, areTermsAccepted, onAreTermsAcceptedValueChange } =
-    props
+  const {
+    i18n,
+    messagesPerField,
+    areTermsAccepted,
+    onAreTermsAcceptedValueChange,
+  } = props
 
   const { msg } = i18n
 

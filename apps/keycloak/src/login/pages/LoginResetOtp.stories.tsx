@@ -1,20 +1,20 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { createKcPageStory } from "../KcPageStory";
+import type { Meta, StoryObj } from "@storybook/react"
+import { createKcPageStory } from "../KcPageStory"
 
-const { KcPageStory } = createKcPageStory({ pageId: "login-reset-otp.ftl" });
+const { KcPageStory } = createKcPageStory({ pageId: "login-reset-otp.ftl" })
 
 const meta = {
-    title: "login/login-reset-otp.ftl",
-    component: KcPageStory
-} satisfies Meta<typeof KcPageStory>;
+  title: "login/login-reset-otp.ftl",
+  component: KcPageStory,
+} satisfies Meta<typeof KcPageStory>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-    render: () => <KcPageStory />
-};
+  render: () => <KcPageStory />,
+}
 
 /**
  * WithoutOtpCredentials:
@@ -23,23 +23,23 @@ export const Default: Story = {
  * - Key Aspect: Ensures that the component handles the absence of OTP credentials correctly.
  */
 export const WithoutOtpCredentials: Story = {
-    render: () => (
-        <KcPageStory
-            kcContext={{
-                url: {
-                    loginAction: "/mock-login"
-                },
-                configuredOtpCredentials: {
-                    userOtpCredentials: [],
-                    selectedCredentialId: undefined
-                },
-                messagesPerField: {
-                    existsError: () => false
-                }
-            }}
-        />
-    )
-};
+  render: () => (
+    <KcPageStory
+      kcContext={{
+        url: {
+          loginAction: "/mock-login",
+        },
+        configuredOtpCredentials: {
+          userOtpCredentials: [],
+          selectedCredentialId: undefined,
+        },
+        messagesPerField: {
+          existsError: () => false,
+        },
+      }}
+    />
+  ),
+}
 
 /**
  * WithOtpError:
@@ -48,27 +48,27 @@ export const WithoutOtpCredentials: Story = {
  * - Key Aspect: Ensures that error messages are displayed correctly for OTP-related errors.
  */
 export const WithOtpError: Story = {
-    render: () => (
-        <KcPageStory
-            kcContext={{
-                url: {
-                    loginAction: "/mock-login"
-                },
-                configuredOtpCredentials: {
-                    userOtpCredentials: [
-                        { id: "otp1", userLabel: "Device 1" },
-                        { id: "otp2", userLabel: "Device 2" }
-                    ],
-                    selectedCredentialId: "otp1"
-                },
-                messagesPerField: {
-                    existsError: (field: string) => field === "totp",
-                    get: () => "Invalid OTP selection"
-                }
-            }}
-        />
-    )
-};
+  render: () => (
+    <KcPageStory
+      kcContext={{
+        url: {
+          loginAction: "/mock-login",
+        },
+        configuredOtpCredentials: {
+          userOtpCredentials: [
+            { id: "otp1", userLabel: "Device 1" },
+            { id: "otp2", userLabel: "Device 2" },
+          ],
+          selectedCredentialId: "otp1",
+        },
+        messagesPerField: {
+          existsError: (field: string) => field === "totp",
+          get: () => "Invalid OTP selection",
+        },
+      }}
+    />
+  ),
+}
 
 /**
  * WithOnlyOneOtpCredential:
@@ -77,20 +77,20 @@ export const WithOtpError: Story = {
  * - Key Aspect: Ensures that the component renders correctly with only one OTP credential pre-selected.
  */
 export const WithOnlyOneOtpCredential: Story = {
-    render: () => (
-        <KcPageStory
-            kcContext={{
-                url: {
-                    loginAction: "/mock-login"
-                },
-                configuredOtpCredentials: {
-                    userOtpCredentials: [{ id: "otp1", userLabel: "Device 1" }],
-                    selectedCredentialId: "otp1"
-                },
-                messagesPerField: {
-                    existsError: () => false
-                }
-            }}
-        />
-    )
-};
+  render: () => (
+    <KcPageStory
+      kcContext={{
+        url: {
+          loginAction: "/mock-login",
+        },
+        configuredOtpCredentials: {
+          userOtpCredentials: [{ id: "otp1", userLabel: "Device 1" }],
+          selectedCredentialId: "otp1",
+        },
+        messagesPerField: {
+          existsError: () => false,
+        },
+      }}
+    />
+  ),
+}

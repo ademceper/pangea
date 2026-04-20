@@ -1,33 +1,33 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { createKcPageStory } from "../KcPageStory";
+import type { Meta, StoryObj } from "@storybook/react"
+import { createKcPageStory } from "../KcPageStory"
 
-const { KcPageStory } = createKcPageStory({ pageId: "login-username.ftl" });
+const { KcPageStory } = createKcPageStory({ pageId: "login-username.ftl" })
 
 const meta = {
-    title: "login/login-username.ftl",
-    component: KcPageStory
-} satisfies Meta<typeof KcPageStory>;
+  title: "login/login-username.ftl",
+  component: KcPageStory,
+} satisfies Meta<typeof KcPageStory>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-    render: () => <KcPageStory />
-};
+  render: () => <KcPageStory />,
+}
 
 export const WithEmailAsUsername: Story = {
-    render: () => (
-        <KcPageStory
-            kcContext={{
-                realm: {
-                    loginWithEmailAllowed: true,
-                    registrationEmailAsUsername: true
-                }
-            }}
-        />
-    )
-};
+  render: () => (
+    <KcPageStory
+      kcContext={{
+        realm: {
+          loginWithEmailAllowed: true,
+          registrationEmailAsUsername: true,
+        },
+      }}
+    />
+  ),
+}
 /**
  * WithAuthPassKey:
  * - Purpose: Test usage of Sign In With Pass Key integration
@@ -35,15 +35,15 @@ export const WithEmailAsUsername: Story = {
  * - Key Aspect: Ensure that it is displayed correctly.
  */
 export const WithAuthPassKey: Story = {
-    render: args => (
-        <KcPageStory
-            {...args}
-            kcContext={{
-                url: {
-                    loginAction: "/mock-login-action"
-                },
-                enableWebAuthnConditionalUI: true
-            }}
-        />
-    )
-};
+  render: (args) => (
+    <KcPageStory
+      {...args}
+      kcContext={{
+        url: {
+          loginAction: "/mock-login-action",
+        },
+        enableWebAuthnConditionalUI: true,
+      }}
+    />
+  ),
+}

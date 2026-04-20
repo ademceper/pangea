@@ -7,7 +7,7 @@ import type { I18n } from "../i18n"
 import { KcSubmit } from "../components/kc-form"
 
 export default function LogoutConfirm(
-  props: PageProps<Extract<KcContext, { pageId: "logout-confirm.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "logout-confirm.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, client, logoutConfirm } = kcContext
@@ -25,7 +25,11 @@ export default function LogoutConfirm(
         <p className="text-sm text-muted-foreground">
           {msg("logoutConfirmHeader")}
         </p>
-        <form action={url.logoutConfirmAction} method="POST" className="space-y-3">
+        <form
+          action={url.logoutConfirmAction}
+          method="POST"
+          className="space-y-3"
+        >
           <input type="hidden" name="session_code" value={logoutConfirm.code} />
           <KcSubmit
             tabIndex={4}

@@ -11,7 +11,7 @@ export default function WebauthnAuthenticate(
   props: PageProps<
     Extract<KcContext, { pageId: "webauthn-authenticate.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const {
@@ -143,6 +143,7 @@ export default function WebauthnAuthenticate(
         )}
 
         <Button
+          size="xl"
           id={authButtonId}
           type="button"
           autoFocus

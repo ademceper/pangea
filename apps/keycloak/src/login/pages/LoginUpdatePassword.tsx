@@ -11,13 +11,16 @@ export default function LoginUpdatePassword(
   props: PageProps<
     Extract<KcContext, { pageId: "login-update-password.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { msg, msgStr } = i18n
   const { url, messagesPerField, isAppInitiatedAction } = kcContext
 
-  const hasAnyError = messagesPerField.existsError("password", "password-confirm")
+  const hasAnyError = messagesPerField.existsError(
+    "password",
+    "password-confirm"
+  )
   const passwordError = messagesPerField.existsError("password")
     ? messagesPerField.get("password")
     : undefined
@@ -84,7 +87,13 @@ export default function LoginUpdatePassword(
         {isAppInitiatedAction ? (
           <div className="grid grid-cols-2 gap-2">
             <KcSubmit label={msgStr("doSubmit")} />
-            <Button type="submit" variant="outline" name="cancel-aia" value="true">
+            <Button
+              size="xl"
+              type="submit"
+              variant="outline"
+              name="cancel-aia"
+              value="true"
+            >
               {msg("doCancel")}
             </Button>
           </div>

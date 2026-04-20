@@ -9,7 +9,7 @@ export default function LoginIdpLinkConfirm(
   props: PageProps<
     Extract<KcContext, { pageId: "login-idp-link-confirm.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, idpAlias } = kcContext
@@ -30,6 +30,7 @@ export default function LoginIdpLinkConfirm(
         className="space-y-3"
       >
         <Button
+          size="xl"
           type="submit"
           variant="outline"
           className="w-full"
@@ -40,6 +41,7 @@ export default function LoginIdpLinkConfirm(
           {msg("confirmLinkIdpReviewProfile")}
         </Button>
         <Button
+          size="xl"
           type="submit"
           className="w-full"
           name="submitAction"

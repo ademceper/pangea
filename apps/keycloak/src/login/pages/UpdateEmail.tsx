@@ -69,12 +69,10 @@ export default function UpdateEmail(props: UpdateEmailProps) {
         <LogoutOtherSessions i18n={i18n} />
 
         <div className="flex flex-col gap-2">
-          <KcSubmit
-            label={msgStr("doSubmit")}
-            disabled={!isFormSubmittable}
-          />
+          <KcSubmit label={msgStr("doSubmit")} disabled={!isFormSubmittable} />
           {isAppInitiatedAction && (
             <Button
+              size="xl"
               type="submit"
               variant="outline"
               name="cancel-aia"

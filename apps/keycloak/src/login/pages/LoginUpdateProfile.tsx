@@ -65,12 +65,10 @@ export default function LoginUpdateProfile(props: LoginUpdateProfileProps) {
         />
 
         <div className="flex flex-col gap-2">
-          <KcSubmit
-            label={msgStr("doSubmit")}
-            disabled={!isFormSubmittable}
-          />
+          <KcSubmit label={msgStr("doSubmit")} disabled={!isFormSubmittable} />
           {isAppInitiatedAction && (
             <Button
+              size="xl"
               type="submit"
               variant="outline"
               name="cancel-aia"

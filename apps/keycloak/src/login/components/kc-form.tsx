@@ -50,28 +50,40 @@ export function KcField(props: KcFieldProps) {
   )
 }
 
-type KcTextInputProps = InputHTMLAttributes<HTMLInputElement> & {
+type KcTextInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
   invalid?: boolean
+  size?: "default" | "xl"
+  variant?: "default" | "secondary"
 }
 
 export const KcTextInput = forwardRef<HTMLInputElement, KcTextInputProps>(
-  function KcTextInput({ invalid, className, ...rest }, ref) {
+  function KcTextInput(
+    { invalid, className, size = "xl", variant = "secondary", ...rest },
+    ref
+  ) {
     return (
       <Input
         ref={ref}
+        size={size}
+        variant={variant}
         aria-invalid={invalid ?? undefined}
         className={cn(
           invalid && "border-destructive focus-visible:ring-destructive",
-          className,
+          className
         )}
         {...rest}
       />
     )
-  },
+  }
 )
 
-type KcPasswordInputProps = InputHTMLAttributes<HTMLInputElement> & {
+type KcPasswordInputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> & {
   invalid?: boolean
+  size?: "default" | "xl"
+  variant?: "default" | "secondary"
   showLabel: string
   hideLabel: string
 }
@@ -83,6 +95,8 @@ export function KcPasswordInput(props: KcPasswordInputProps) {
     className,
     showLabel,
     hideLabel,
+    size = "xl",
+    variant = "secondary",
     ...rest
   } = props
 
@@ -98,11 +112,13 @@ export function KcPasswordInput(props: KcPasswordInputProps) {
       <Input
         id={id}
         type="password"
+        size={size}
+        variant={variant}
         aria-invalid={invalid ?? undefined}
         className={cn(
-          "pr-10",
+          "pr-12",
           invalid && "border-destructive focus-visible:ring-destructive",
-          className,
+          className
         )}
         {...rest}
       />
@@ -111,12 +127,12 @@ export function KcPasswordInput(props: KcPasswordInputProps) {
         aria-label={isPasswordRevealed ? hideLabel : showLabel}
         aria-controls={id}
         onClick={toggleIsPasswordRevealed}
-        className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+        className="absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground hover:text-foreground"
       >
         {isPasswordRevealed ? (
-          <EyeSlash className="size-4" aria-hidden />
+          <EyeSlash className="size-5" aria-hidden />
         ) : (
-          <Eye className="size-4" aria-hidden />
+          <Eye className="size-5" aria-hidden />
         )}
       </button>
     </div>
@@ -129,7 +145,12 @@ type KcSubmitProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function KcSubmit({ label, className, ...rest }: KcSubmitProps) {
   return (
-    <Button type="submit" className={cn("w-full", className)} {...rest}>
+    <Button
+      type="submit"
+      size="xl"
+      className={cn("w-full", className)}
+      {...rest}
+    >
       {label}
     </Button>
   )

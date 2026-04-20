@@ -12,7 +12,7 @@ export default function LoginConfigTotp(
   props: PageProps<
     Extract<KcContext, { pageId: "login-config-totp.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, isAppInitiatedAction, totp, mode, messagesPerField } = kcContext
@@ -30,10 +30,7 @@ export default function LoginConfigTotp(
       headerNode={msg("loginTotpTitle")}
       displayMessage={!messagesPerField.existsError("totp", "userLabel")}
     >
-      <ol
-        id="kc-totp-settings"
-        className="list-decimal space-y-4 pl-5 text-sm"
-      >
+      <ol id="kc-totp-settings" className="list-decimal space-y-4 pl-5 text-sm">
         <li>
           <p>{msg("loginTotpStep1")}</p>
           <ul
@@ -59,11 +56,7 @@ export default function LoginConfigTotp(
                 </span>
               </p>
               <p className="mt-2">
-                <Button
-                  asChild
-                  variant="link"
-                  className="h-auto p-0"
-                >
+                <Button asChild variant="link" className="h-auto p-0">
                   <a href={totp.qrUrl} id="mode-barcode">
                     {msg("loginTotpScanBarcode")}
                   </a>
@@ -104,11 +97,7 @@ export default function LoginConfigTotp(
               className="my-2"
             />
             <p>
-              <Button
-                asChild
-                variant="link"
-                className="h-auto p-0"
-              >
+              <Button asChild variant="link" className="h-auto p-0">
                 <a href={totp.manualUrl} id="mode-manual">
                   {msg("loginTotpUnableToScan")}
                 </a>
@@ -135,9 +124,7 @@ export default function LoginConfigTotp(
           label={msg("authenticatorCode")}
           required
           error={
-            totpError
-              ? kcSanitize(messagesPerField.get("totp"))
-              : undefined
+            totpError ? kcSanitize(messagesPerField.get("totp")) : undefined
           }
         >
           <KcTextInput
@@ -182,6 +169,7 @@ export default function LoginConfigTotp(
           <div className="grid grid-cols-2 gap-2">
             <KcSubmit id="saveTOTPBtn" label={msgStr("doSubmit")} />
             <Button
+              size="xl"
               type="submit"
               variant="outline"
               id="cancelTOTPBtn"

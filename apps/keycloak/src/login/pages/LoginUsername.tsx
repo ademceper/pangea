@@ -11,7 +11,7 @@ import type { I18n } from "../i18n"
 import { KcField, KcSubmit, KcTextInput } from "../components/kc-form"
 
 export default function LoginUsername(
-  props: PageProps<Extract<KcContext, { pageId: "login-username.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "login-username.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const {
@@ -65,9 +65,7 @@ export default function LoginUsername(
       }
       headerNode={msg("doLogIn")}
       socialProvidersNode={
-        realm.password &&
-        social?.providers &&
-        social.providers.length !== 0 ? (
+        realm.password && social?.providers && social.providers.length !== 0 ? (
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="h-px flex-1 bg-border" />
@@ -86,6 +84,7 @@ export default function LoginUsername(
               {social.providers.map((p) => (
                 <li key={p.alias}>
                   <Button
+                    size="xl"
                     asChild
                     variant="outline"
                     className="w-full justify-start"
@@ -120,11 +119,7 @@ export default function LoginUsername(
           className="space-y-4"
         >
           {!usernameHidden && (
-            <KcField
-              id="username"
-              label={usernameLabel}
-              error={usernameError}
-            >
+            <KcField id="username" label={usernameLabel} error={usernameError}>
               <KcTextInput
                 tabIndex={2}
                 id="username"
@@ -166,7 +161,11 @@ export default function LoginUsername(
         <div className="space-y-3">
           <form id="webauth" action={url.loginAction} method="post">
             <input type="hidden" id="clientDataJSON" name="clientDataJSON" />
-            <input type="hidden" id="authenticatorData" name="authenticatorData" />
+            <input
+              type="hidden"
+              id="authenticatorData"
+              name="authenticatorData"
+            />
             <input type="hidden" id="signature" name="signature" />
             <input type="hidden" id="credentialId" name="credentialId" />
             <input type="hidden" id="userHandle" name="userHandle" />
@@ -189,6 +188,7 @@ export default function LoginUsername(
             )}
 
           <Button
+            size="xl"
             id={webAuthnButtonId}
             type="button"
             variant="outline"

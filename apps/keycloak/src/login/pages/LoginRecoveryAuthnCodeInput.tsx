@@ -8,7 +8,7 @@ export default function LoginRecoveryAuthnCodeInput(
   props: PageProps<
     Extract<KcContext, { pageId: "login-recovery-authn-code-input.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, messagesPerField, recoveryAuthnCodesInputBean } = kcContext
@@ -38,7 +38,7 @@ export default function LoginRecoveryAuthnCodeInput(
           id="recoveryCodeInput"
           label={msg(
             "auth-recovery-code-prompt",
-            `${recoveryAuthnCodesInputBean.codeNumber}`,
+            `${recoveryAuthnCodesInputBean.codeNumber}`
           )}
           error={errorMessage}
         >

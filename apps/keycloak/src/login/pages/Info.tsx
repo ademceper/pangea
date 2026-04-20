@@ -7,7 +7,7 @@ import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 
 export default function Info(
-  props: PageProps<Extract<KcContext, { pageId: "info.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "info.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { advancedMsgStr, msg } = i18n
@@ -52,7 +52,7 @@ export default function Info(
         <span
           dangerouslySetInnerHTML={{
             __html: kcSanitize(
-              messageHeader ? advancedMsgStr(messageHeader) : message.summary,
+              messageHeader ? advancedMsgStr(messageHeader) : message.summary
             ),
           }}
         />

@@ -11,7 +11,7 @@ export default function WebauthnRegister(
   props: PageProps<
     Extract<KcContext, { pageId: "webauthn-register.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, isSetRetry, isAppInitiatedAction } = kcContext
@@ -46,7 +46,11 @@ export default function WebauthnRegister(
           id="publicKeyCredentialId"
           name="publicKeyCredentialId"
         />
-        <input type="hidden" id="authenticatorLabel" name="authenticatorLabel" />
+        <input
+          type="hidden"
+          id="authenticatorLabel"
+          name="authenticatorLabel"
+        />
         <input type="hidden" id="transports" name="transports" />
         <input type="hidden" id="error" name="error" />
 
@@ -54,11 +58,7 @@ export default function WebauthnRegister(
       </form>
 
       <div className="space-y-2">
-        <Button
-          type="submit"
-          id={authButtonId}
-          className="w-full"
-        >
+        <Button size="xl" type="submit" id={authButtonId} className="w-full">
           {msgStr("doRegisterSecurityKey")}
         </Button>
 
@@ -69,6 +69,7 @@ export default function WebauthnRegister(
             method="POST"
           >
             <Button
+              size="xl"
               type="submit"
               variant="outline"
               id="cancelWebAuthnAIA"

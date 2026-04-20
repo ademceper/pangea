@@ -10,7 +10,7 @@ export default function LoginResetPassword(
   props: PageProps<
     Extract<KcContext, { pageId: "login-reset-password.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, realm, auth, messagesPerField } = kcContext
@@ -48,7 +48,11 @@ export default function LoginResetPassword(
         method="post"
         className="space-y-4"
       >
-        <KcField id="username" label={usernameLabel} error={usernameErrorMessage}>
+        <KcField
+          id="username"
+          label={usernameLabel}
+          error={usernameErrorMessage}
+        >
           <KcTextInput
             type="text"
             id="username"

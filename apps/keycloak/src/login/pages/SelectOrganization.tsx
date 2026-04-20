@@ -10,7 +10,7 @@ export default function SelectOrganization(
   props: PageProps<
     Extract<KcContext, { pageId: "select-organization.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, user } = kcContext
@@ -57,13 +57,13 @@ export default function SelectOrganization(
         className="space-y-4"
       >
         <div id="kc-user-organizations" className="space-y-3">
-          <h2 className="text-lg font-semibold">{msg("organization.select")}</h2>
+          <h2 className="text-lg font-semibold">
+            {msg("organization.select")}
+          </h2>
           <ul
             className={cn(
               "gap-2",
-              shouldDisplayGrid
-                ? "grid grid-cols-2"
-                : "flex flex-col",
+              shouldDisplayGrid ? "grid grid-cols-2" : "flex flex-col"
             )}
           >
             {organizations.map(({ alias, name }) => (

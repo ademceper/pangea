@@ -8,7 +8,7 @@ import type { I18n } from "../i18n"
 import { KcSubmit } from "../components/kc-form"
 
 export default function LoginX509Info(
-  props: PageProps<Extract<KcContext, { pageId: "login-x509-info.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "login-x509-info.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, x509 } = kcContext
@@ -29,12 +29,16 @@ export default function LoginX509Info(
         className="space-y-4"
       >
         <div className="space-y-2">
-          <Label htmlFor="certificate_subjectDN">{msg("clientCertificate")}</Label>
+          <Label htmlFor="certificate_subjectDN">
+            {msg("clientCertificate")}
+          </Label>
           <div
             id="certificate_subjectDN"
             className="rounded-md border bg-muted/30 p-4 text-sm font-mono break-all"
           >
-            {x509.formData.subjectDN ? x509.formData.subjectDN : msg("noCertificate")}
+            {x509.formData.subjectDN
+              ? x509.formData.subjectDN
+              : msg("noCertificate")}
           </div>
         </div>
 
@@ -53,7 +57,13 @@ export default function LoginX509Info(
         {x509.formData.isUserEnabled ? (
           <div className="grid grid-cols-2 gap-2">
             <KcSubmit name="login" id="kc-login" label={msgStr("doContinue")} />
-            <Button type="submit" variant="outline" name="cancel" id="kc-cancel">
+            <Button
+              size="xl"
+              type="submit"
+              variant="outline"
+              name="cancel"
+              id="kc-cancel"
+            >
               {msgStr("doIgnore")}
             </Button>
           </div>

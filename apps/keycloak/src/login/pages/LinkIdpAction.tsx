@@ -7,7 +7,7 @@ import type { I18n } from "../i18n"
 import { KcSubmit } from "../components/kc-form"
 
 export default function LinkIdpAction(
-  props: PageProps<Extract<KcContext, { pageId: "link-idp-action.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "link-idp-action.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { idpDisplayName, url } = kcContext
@@ -33,6 +33,7 @@ export default function LinkIdpAction(
             label={msgStr("doContinue")}
           />
           <Button
+            size="xl"
             type="submit"
             variant="outline"
             name="cancel-aia"

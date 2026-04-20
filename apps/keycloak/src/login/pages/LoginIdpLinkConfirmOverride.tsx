@@ -9,7 +9,7 @@ export default function LoginIdpLinkConfirmOverride(
   props: PageProps<
     Extract<KcContext, { pageId: "login-idp-link-confirm-override.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, idpDisplayName } = kcContext
@@ -38,6 +38,7 @@ export default function LoginIdpLinkConfirmOverride(
           </Button>
         </p>
         <Button
+          size="xl"
           type="submit"
           className="w-full"
           name="submitAction"

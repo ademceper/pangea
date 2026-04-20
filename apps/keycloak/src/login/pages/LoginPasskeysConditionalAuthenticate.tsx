@@ -11,9 +11,12 @@ import { KcField, KcTextInput } from "../components/kc-form"
 
 export default function LoginPasskeysConditionalAuthenticate(
   props: PageProps<
-    Extract<KcContext, { pageId: "login-passkeys-conditional-authenticate.ftl" }>,
+    Extract<
+      KcContext,
+      { pageId: "login-passkeys-conditional-authenticate.ftl" }
+    >,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const {
@@ -125,7 +128,7 @@ export default function LoginPasskeysConditionalAuthenticate(
                                     <span>{advancedMsg(nameProperty)}</span>
                                     {idx !== arr.length - 1 && <span>, </span>}
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </div>
                           ) : null}
@@ -195,11 +198,9 @@ export default function LoginPasskeysConditionalAuthenticate(
                 )}
               </form>
             )}
-            <div
-              id="kc-form-passkey-button"
-              style={{ display: "none" }}
-            >
+            <div id="kc-form-passkey-button" style={{ display: "none" }}>
               <Button
+                size="xl"
                 id={authButtonId}
                 type="button"
                 autoFocus

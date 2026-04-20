@@ -7,7 +7,7 @@ export default function LoginVerifyEmail(
   props: PageProps<
     Extract<KcContext, { pageId: "login-verify-email.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { msg } = i18n

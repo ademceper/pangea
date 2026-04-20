@@ -9,7 +9,7 @@ export default function LoginIdpLinkEmail(
   props: PageProps<
     Extract<KcContext, { pageId: "login-idp-link-email.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, realm, brokerContext, idpAlias } = kcContext
@@ -29,7 +29,7 @@ export default function LoginIdpLinkEmail(
             "emailLinkIdp1",
             idpAlias,
             brokerContext.username,
-            realm.displayName,
+            realm.displayName
           )}
         </p>
         <p id="instruction2" className="text-sm text-muted-foreground">

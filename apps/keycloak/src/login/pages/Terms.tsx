@@ -6,7 +6,7 @@ import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 
 export default function Terms(
-  props: PageProps<Extract<KcContext, { pageId: "terms.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "terms.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { msg, msgStr } = i18n
@@ -30,10 +30,11 @@ export default function Terms(
           method="POST"
           className="grid grid-cols-2 gap-2"
         >
-          <Button type="submit" name="accept" id="kc-accept">
+          <Button size="xl" type="submit" name="accept" id="kc-accept">
             {msgStr("doAccept")}
           </Button>
           <Button
+            size="xl"
             type="submit"
             name="cancel"
             id="kc-decline"

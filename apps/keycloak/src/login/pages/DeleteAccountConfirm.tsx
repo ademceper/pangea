@@ -12,7 +12,7 @@ export default function DeleteAccountConfirm(
   props: PageProps<
     Extract<KcContext, { pageId: "delete-account-confirm.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, triggered_from_aia } = kcContext
@@ -46,6 +46,7 @@ export default function DeleteAccountConfirm(
           <div className="grid grid-cols-2 gap-2">
             <KcSubmit label={msgStr("doConfirmDelete")} />
             <Button
+              size="xl"
               type="submit"
               variant="outline"
               name="cancel-aia"

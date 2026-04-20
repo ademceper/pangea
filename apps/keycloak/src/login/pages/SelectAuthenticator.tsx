@@ -8,7 +8,7 @@ export default function SelectAuthenticator(
   props: PageProps<
     Extract<KcContext, { pageId: "select-authenticator.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url, auth } = kcContext
@@ -39,7 +39,10 @@ export default function SelectAuthenticator(
           >
             {authenticationSelection.iconCssClass && (
               <div className="flex size-10 shrink-0 items-center justify-center text-muted-foreground">
-                <i className={authenticationSelection.iconCssClass} aria-hidden />
+                <i
+                  className={authenticationSelection.iconCssClass}
+                  aria-hidden
+                />
               </div>
             )}
             <div className="flex-1">

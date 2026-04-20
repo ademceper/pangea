@@ -22,10 +22,10 @@ import type { I18n } from "./i18n"
 import { KcTextInput } from "./components/kc-form"
 
 const selectClassName =
-  "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm"
+  "flex h-12 w-full rounded-lg border-transparent bg-muted px-4 py-2 text-base transition-colors outline-none hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-muted/60 dark:hover:bg-muted/70"
 
 export default function UserProfileFormFields(
-  props: UserProfileFormFieldsProps<KcContext, I18n>,
+  props: UserProfileFormFieldsProps<KcContext, I18n>
 ) {
   const {
     kcContext,
@@ -55,70 +55,22 @@ export default function UserProfileFormFields(
 
   return (
     <>
-      {formFieldStates.map(({ attribute, displayableErrors, valueOrValues }) => {
-        const isHidden =
-          attribute.annotations.inputType === "hidden" ||
-          (attribute.name === "password-confirm" && !doMakeUserConfirmPassword)
+      {formFieldStates.map(
+        ({ attribute, displayableErrors, valueOrValues }) => {
+          const isHidden =
+            attribute.annotations.inputType === "hidden" ||
+            (attribute.name === "password-confirm" &&
+              !doMakeUserConfirmPassword)
 
-        return (
-          <Fragment key={attribute.name}>
-            <GroupLabel
-              attribute={attribute}
-              groupNameRef={groupNameRef}
-              i18n={i18n}
-            />
-            {BeforeField !== undefined && (
-              <BeforeField
+          return (
+            <Fragment key={attribute.name}>
+              <GroupLabel
                 attribute={attribute}
-                dispatchFormAction={dispatchFormAction}
-                displayableErrors={displayableErrors}
-                valueOrValues={valueOrValues}
-                kcClsx={props.kcClsx}
+                groupNameRef={groupNameRef}
                 i18n={i18n}
               />
-            )}
-            <div
-              className="space-y-2"
-              style={{ display: isHidden ? "none" : undefined }}
-            >
-              <Label htmlFor={attribute.name}>
-                {advancedMsg(attribute.displayName ?? "")}
-                {attribute.required && (
-                  <span className="ml-0.5 text-destructive">*</span>
-                )}
-              </Label>
-              {attribute.annotations.inputHelperTextBefore !== undefined && (
-                <p
-                  className="text-sm text-muted-foreground"
-                  id={`form-help-text-before-${attribute.name}`}
-                  aria-live="polite"
-                >
-                  {advancedMsg(attribute.annotations.inputHelperTextBefore)}
-                </p>
-              )}
-              <InputFieldByType
-                attribute={attribute}
-                valueOrValues={valueOrValues}
-                displayableErrors={displayableErrors}
-                dispatchFormAction={dispatchFormAction}
-                i18n={i18n}
-              />
-              <FieldErrors
-                attribute={attribute}
-                displayableErrors={displayableErrors}
-                fieldIndex={undefined}
-              />
-              {attribute.annotations.inputHelperTextAfter !== undefined && (
-                <p
-                  className="text-sm text-muted-foreground"
-                  id={`form-help-text-after-${attribute.name}`}
-                  aria-live="polite"
-                >
-                  {advancedMsg(attribute.annotations.inputHelperTextAfter)}
-                </p>
-              )}
-              {AfterField !== undefined && (
-                <AfterField
+              {BeforeField !== undefined && (
+                <BeforeField
                   attribute={attribute}
                   dispatchFormAction={dispatchFormAction}
                   displayableErrors={displayableErrors}
@@ -127,10 +79,61 @@ export default function UserProfileFormFields(
                   i18n={i18n}
                 />
               )}
-            </div>
-          </Fragment>
-        )
-      })}
+              <div
+                className="space-y-2"
+                style={{ display: isHidden ? "none" : undefined }}
+              >
+                <Label htmlFor={attribute.name}>
+                  {advancedMsg(attribute.displayName ?? "")}
+                  {attribute.required && (
+                    <span className="ml-0.5 text-destructive">*</span>
+                  )}
+                </Label>
+                {attribute.annotations.inputHelperTextBefore !== undefined && (
+                  <p
+                    className="text-sm text-muted-foreground"
+                    id={`form-help-text-before-${attribute.name}`}
+                    aria-live="polite"
+                  >
+                    {advancedMsg(attribute.annotations.inputHelperTextBefore)}
+                  </p>
+                )}
+                <InputFieldByType
+                  attribute={attribute}
+                  valueOrValues={valueOrValues}
+                  displayableErrors={displayableErrors}
+                  dispatchFormAction={dispatchFormAction}
+                  i18n={i18n}
+                />
+                <FieldErrors
+                  attribute={attribute}
+                  displayableErrors={displayableErrors}
+                  fieldIndex={undefined}
+                />
+                {attribute.annotations.inputHelperTextAfter !== undefined && (
+                  <p
+                    className="text-sm text-muted-foreground"
+                    id={`form-help-text-after-${attribute.name}`}
+                    aria-live="polite"
+                  >
+                    {advancedMsg(attribute.annotations.inputHelperTextAfter)}
+                  </p>
+                )}
+                {AfterField !== undefined && (
+                  <AfterField
+                    attribute={attribute}
+                    dispatchFormAction={dispatchFormAction}
+                    displayableErrors={displayableErrors}
+                    valueOrValues={valueOrValues}
+                    kcClsx={props.kcClsx}
+                    i18n={i18n}
+                  />
+                )}
+              </div>
+            </Fragment>
+          )
+        }
+      )}
     </>
   )
 }
@@ -162,8 +165,8 @@ function GroupLabel(props: {
           className="space-y-1 pt-2"
           {...Object.fromEntries(
             Object.entries(attribute.group.html5DataAnnotations).map(
-              ([key, value]) => [`data-${key}`, value],
-            ),
+              ([key, value]) => [`data-${key}`, value]
+            )
           )}
         >
           <label
@@ -196,7 +199,7 @@ function FieldErrors(props: {
   const { attribute, fieldIndex } = props
 
   const displayableErrors = props.displayableErrors.filter(
-    (error) => error.fieldIndex === fieldIndex,
+    (error) => error.fieldIndex === fieldIndex
   )
 
   if (displayableErrors.length === 0) {
@@ -279,16 +282,17 @@ function PasswordWrapper(props: {
 
   const { msgStr } = i18n
 
-  const { isPasswordRevealed, toggleIsPasswordRevealed } = useIsPasswordRevealed(
-    { passwordInputId },
-  )
+  const { isPasswordRevealed, toggleIsPasswordRevealed } =
+    useIsPasswordRevealed({ passwordInputId })
 
   return (
     <div className="relative">
       {children}
       <button
         type="button"
-        aria-label={msgStr(isPasswordRevealed ? "hidePassword" : "showPassword")}
+        aria-label={msgStr(
+          isPasswordRevealed ? "hidePassword" : "showPassword"
+        )}
         aria-controls={passwordInputId}
         onClick={toggleIsPasswordRevealed}
         className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
@@ -304,7 +308,7 @@ function PasswordWrapper(props: {
 }
 
 function InputTag(
-  props: InputFieldByTypeProps & { fieldIndex: number | undefined },
+  props: InputFieldByTypeProps & { fieldIndex: number | undefined }
 ) {
   const {
     attribute,
@@ -358,11 +362,6 @@ function InputTag(
             : advancedMsgStr(attribute.annotations.inputTypePlaceholder)
         }
         pattern={attribute.annotations.inputTypePattern}
-        size={
-          attribute.annotations.inputTypeSize === undefined
-            ? undefined
-            : parseInt(`${attribute.annotations.inputTypeSize}`)
-        }
         maxLength={
           attribute.annotations.inputTypeMaxlength === undefined
             ? undefined
@@ -378,8 +377,8 @@ function InputTag(
         step={attribute.annotations.inputTypeStep}
         {...Object.fromEntries(
           Object.entries(attribute.html5DataAnnotations ?? {}).map(
-            ([key, value]) => [`data-${key}`, value],
-          ),
+            ([key, value]) => [`data-${key}`, value]
+          )
         )}
         onChange={(event) =>
           dispatchFormAction({
@@ -506,7 +505,7 @@ function InputTagSelects(props: InputFieldByTypeProps) {
 
   assert(
     inputType === "select-radiobuttons" ||
-      inputType === "multiselect-checkboxes",
+      inputType === "multiselect-checkboxes"
   )
 
   const isCheckbox = inputType === "multiselect-checkboxes"
@@ -581,7 +580,7 @@ function InputTagSelects(props: InputFieldByTypeProps) {
             htmlFor={optionId}
             className={cn(
               "flex items-center gap-2 text-sm",
-              attribute.readOnly && "cursor-not-allowed opacity-50",
+              attribute.readOnly && "cursor-not-allowed opacity-50"
             )}
           >
             <input
@@ -618,6 +617,7 @@ function TextareaTag(props: InputFieldByTypeProps) {
       name={attribute.name}
       aria-invalid={displayableErrors.length !== 0}
       disabled={attribute.readOnly}
+      className="border-transparent bg-muted hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 dark:bg-muted/60 dark:hover:bg-muted/70"
       cols={
         attribute.annotations.inputTypeCols === undefined
           ? undefined
@@ -653,8 +653,13 @@ function TextareaTag(props: InputFieldByTypeProps) {
 }
 
 function SelectTag(props: InputFieldByTypeProps) {
-  const { attribute, dispatchFormAction, displayableErrors, i18n, valueOrValues } =
-    props
+  const {
+    attribute,
+    dispatchFormAction,
+    displayableErrors,
+    i18n,
+    valueOrValues,
+  } = props
 
   const isMultiple = attribute.annotations.inputType === "multiselect"
 
@@ -679,7 +684,7 @@ function SelectTag(props: InputFieldByTypeProps) {
           valueOrValues: (() => {
             if (isMultiple) {
               return Array.from(event.target.selectedOptions).map(
-                (option) => option.value,
+                (option) => option.value
               )
             }
 
@@ -746,7 +751,7 @@ function inputLabel(i18n: I18n, attribute: Attribute, option: string) {
 
   if (attribute.annotations.inputOptionLabelsI18nPrefix !== undefined) {
     return advancedMsg(
-      `${attribute.annotations.inputOptionLabelsI18nPrefix}.${option}`,
+      `${attribute.annotations.inputOptionLabelsI18nPrefix}.${option}`
     )
   }
 

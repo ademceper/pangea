@@ -10,7 +10,7 @@ export default function FrontchannelLogout(
   props: PageProps<
     Extract<KcContext, { pageId: "frontchannel-logout.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { logout } = kcContext
@@ -58,7 +58,7 @@ export default function FrontchannelLogout(
           ))}
         </ul>
         {logout.logoutRedirectUri !== undefined && (
-          <Button asChild className="w-full">
+          <Button size="xl" asChild className="w-full">
             <a id="continue" href={logout.logoutRedirectUri}>
               {msg("doContinue")}
             </a>

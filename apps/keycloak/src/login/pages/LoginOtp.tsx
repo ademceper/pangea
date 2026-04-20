@@ -10,7 +10,7 @@ import type { I18n } from "../i18n"
 import { KcField, KcSubmit, KcTextInput } from "../components/kc-form"
 
 export default function LoginOtp(
-  props: PageProps<Extract<KcContext, { pageId: "login-otp.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "login-otp.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { otpLogin, url, messagesPerField } = kcContext
@@ -19,9 +19,7 @@ export default function LoginOtp(
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const hasOtpError = messagesPerField.existsError("totp")
-  const otpErrorMessage = hasOtpError
-    ? messagesPerField.get("totp")
-    : undefined
+  const otpErrorMessage = hasOtpError ? messagesPerField.get("totp") : undefined
 
   return (
     <Template

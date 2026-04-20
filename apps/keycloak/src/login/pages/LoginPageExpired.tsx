@@ -7,7 +7,7 @@ export default function LoginPageExpired(
   props: PageProps<
     Extract<KcContext, { pageId: "login-page-expired.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { url } = kcContext

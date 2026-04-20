@@ -2,7 +2,11 @@ import { useScript } from "keycloakify/login/pages/LoginRecoveryAuthnCodeConfig.
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 import { Printer, DownloadSimple, Copy, Warning } from "@phosphor-icons/react"
 
-import { Alert, AlertDescription, AlertTitle } from "@pangea/ui/components/alert"
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@pangea/ui/components/alert"
 import { Button } from "@pangea/ui/components/button"
 import { Checkbox } from "@pangea/ui/components/checkbox"
 import { Label } from "@pangea/ui/components/label"
@@ -14,7 +18,7 @@ export default function LoginRecoveryAuthnCodeConfig(
   props: PageProps<
     Extract<KcContext, { pageId: "login-recovery-authn-code-config.ftl" }>,
     I18n
-  >,
+  >
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
 
@@ -56,7 +60,7 @@ export default function LoginRecoveryAuthnCodeConfig(
               <span className="text-muted-foreground">{index + 1}:</span>{" "}
               {code.slice(0, 4)}-{code.slice(4, 8)}-{code.slice(8)}
             </li>
-          ),
+          )
         )}
       </ol>
 
@@ -116,7 +120,9 @@ export default function LoginRecoveryAuthnCodeConfig(
         <input
           type="hidden"
           name="generatedRecoveryAuthnCodes"
-          value={recoveryAuthnCodesConfigBean.generatedRecoveryAuthnCodesAsString}
+          value={
+            recoveryAuthnCodesConfigBean.generatedRecoveryAuthnCodesAsString
+          }
         />
         <input
           type="hidden"
@@ -135,6 +141,7 @@ export default function LoginRecoveryAuthnCodeConfig(
         {isAppInitiatedAction ? (
           <div className="flex flex-col gap-2">
             <Button
+              size="xl"
               type="submit"
               id="saveRecoveryAuthnCodesBtn"
               disabled
@@ -143,6 +150,7 @@ export default function LoginRecoveryAuthnCodeConfig(
               {msgStr("recovery-codes-action-complete")}
             </Button>
             <Button
+              size="xl"
               type="submit"
               variant="outline"
               id="cancelRecoveryAuthnCodesBtn"
@@ -154,6 +162,7 @@ export default function LoginRecoveryAuthnCodeConfig(
           </div>
         ) : (
           <Button
+            size="xl"
             type="submit"
             id="saveRecoveryAuthnCodesBtn"
             disabled

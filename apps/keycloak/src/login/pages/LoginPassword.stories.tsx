@@ -1,20 +1,20 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { createKcPageStory } from "../KcPageStory";
+import type { Meta, StoryObj } from "@storybook/react"
+import { createKcPageStory } from "../KcPageStory"
 
-const { KcPageStory } = createKcPageStory({ pageId: "login-password.ftl" });
+const { KcPageStory } = createKcPageStory({ pageId: "login-password.ftl" })
 
 const meta = {
-    title: "login/login-password.ftl",
-    component: KcPageStory
-} satisfies Meta<typeof KcPageStory>;
+  title: "login/login-password.ftl",
+  component: KcPageStory,
+} satisfies Meta<typeof KcPageStory>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-    render: () => <KcPageStory />
-};
+  render: () => <KcPageStory />,
+}
 
 /**
  * WithPasswordError:
@@ -23,24 +23,24 @@ export const Default: Story = {
  * - Key Aspect: Ensures that the password input field displays error messages correctly.
  */
 export const WithPasswordError: Story = {
-    render: () => (
-        <KcPageStory
-            kcContext={{
-                realm: {
-                    resetPasswordAllowed: true
-                },
-                url: {
-                    loginAction: "/mock-login",
-                    loginResetCredentialsUrl: "/mock-reset-password"
-                },
-                messagesPerField: {
-                    existsError: (field: string) => field === "password",
-                    get: () => "Invalid password"
-                }
-            }}
-        />
-    )
-};
+  render: () => (
+    <KcPageStory
+      kcContext={{
+        realm: {
+          resetPasswordAllowed: true,
+        },
+        url: {
+          loginAction: "/mock-login",
+          loginResetCredentialsUrl: "/mock-reset-password",
+        },
+        messagesPerField: {
+          existsError: (field: string) => field === "password",
+          get: () => "Invalid password",
+        },
+      }}
+    />
+  ),
+}
 
 /**
  * WithoutResetPasswordOption:
@@ -49,23 +49,23 @@ export const WithPasswordError: Story = {
  * - Key Aspect: Ensures that the component handles cases where resetting the password is not allowed.
  */
 export const WithoutResetPasswordOption: Story = {
-    render: () => (
-        <KcPageStory
-            kcContext={{
-                realm: {
-                    resetPasswordAllowed: false
-                },
-                url: {
-                    loginAction: "/mock-login",
-                    loginResetCredentialsUrl: "/mock-reset-password"
-                },
-                messagesPerField: {
-                    existsError: () => false
-                }
-            }}
-        />
-    )
-};
+  render: () => (
+    <KcPageStory
+      kcContext={{
+        realm: {
+          resetPasswordAllowed: false,
+        },
+        url: {
+          loginAction: "/mock-login",
+          loginResetCredentialsUrl: "/mock-reset-password",
+        },
+        messagesPerField: {
+          existsError: () => false,
+        },
+      }}
+    />
+  ),
+}
 /**
  * WithAuthPassKey:
  * - Purpose: Test usage of Sign In With Pass Key integration
@@ -73,15 +73,15 @@ export const WithoutResetPasswordOption: Story = {
  * - Key Aspect: Ensure that it is displayed correctly.
  */
 export const WithAuthPassKey: Story = {
-    render: args => (
-        <KcPageStory
-            {...args}
-            kcContext={{
-                url: {
-                    loginAction: "/mock-login-action"
-                },
-                enableWebAuthnConditionalUI: true
-            }}
-        />
-    )
-};
+  render: (args) => (
+    <KcPageStory
+      {...args}
+      kcContext={{
+        url: {
+          loginAction: "/mock-login-action",
+        },
+        enableWebAuthnConditionalUI: true,
+      }}
+    />
+  ),
+}

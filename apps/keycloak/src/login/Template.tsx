@@ -63,7 +63,10 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center gap-6 p-4 sm:p-8">
       <header className="text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1
+          className="text-4xl tracking-tight"
+          style={{ fontFamily: '"Climate Crisis", sans-serif' }}
+        >
           {msg("loginTitleHtml", realm.displayNameHtml || realm.name)}
         </h1>
       </header>
@@ -149,7 +152,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
               onClick={(event) => {
                 ;(
                   document.forms.namedItem(
-                    "kc-select-try-another-way-form",
+                    "kc-select-try-another-way-form"
                   ) as HTMLFormElement | null
                 )?.requestSubmit()
                 event.preventDefault()
@@ -197,7 +200,7 @@ function MessageAlert(props: {
         type === "warning" &&
           "border-amber-500/40 bg-amber-500/10 text-amber-900 dark:text-amber-100",
         type === "info" &&
-          "border-sky-500/40 bg-sky-500/10 text-sky-900 dark:text-sky-100",
+          "border-sky-500/40 bg-sky-500/10 text-sky-900 dark:text-sky-100"
       )}
     >
       <Icon className="size-4" aria-hidden />

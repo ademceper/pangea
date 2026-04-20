@@ -10,11 +10,16 @@ import type { I18n } from "../i18n"
 import { KcFieldError, KcPasswordInput, KcSubmit } from "../components/kc-form"
 
 export default function LoginPassword(
-  props: PageProps<Extract<KcContext, { pageId: "login-password.ftl" }>, I18n>,
+  props: PageProps<Extract<KcContext, { pageId: "login-password.ftl" }>, I18n>
 ) {
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
-  const { realm, url, messagesPerField, enableWebAuthnConditionalUI, authenticators } =
-    kcContext
+  const {
+    realm,
+    url,
+    messagesPerField,
+    enableWebAuthnConditionalUI,
+    authenticators,
+  } = kcContext
   const { msg, msgStr } = i18n
 
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false)
@@ -87,7 +92,11 @@ export default function LoginPassword(
         <div className="space-y-3">
           <form id="webauth" action={url.loginAction} method="post">
             <input type="hidden" id="clientDataJSON" name="clientDataJSON" />
-            <input type="hidden" id="authenticatorData" name="authenticatorData" />
+            <input
+              type="hidden"
+              id="authenticatorData"
+              name="authenticatorData"
+            />
             <input type="hidden" id="signature" name="signature" />
             <input type="hidden" id="credentialId" name="credentialId" />
             <input type="hidden" id="userHandle" name="userHandle" />
@@ -110,6 +119,7 @@ export default function LoginPassword(
             )}
 
           <Button
+            size="xl"
             id={webAuthnButtonId}
             type="button"
             variant="outline"
