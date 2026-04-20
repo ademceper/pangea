@@ -1,7 +1,6 @@
 {
   "extends": "@pangea/ts-cfg/react-library.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@pangea/ui/*": ["./src/*"]
     }
