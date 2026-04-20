@@ -1,44 +1,54 @@
-import { getKcClsx } from "keycloakify/login/lib/kcClsx";
-import type { PageProps } from "keycloakify/login/pages/PageProps";
-import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
+import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-export default function LoginIdpLinkConfirm(props: PageProps<Extract<KcContext, { pageId: "login-idp-link-confirm.ftl" }>, I18n>) {
-    const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
+import { Button } from "@pangea/ui/components/button"
 
-    const { kcClsx } = getKcClsx({
-        doUseDefaultCss,
-        classes
-    });
+import type { KcContext } from "../KcContext"
+import type { I18n } from "../i18n"
 
-    const { url, idpAlias } = kcContext;
+export default function LoginIdpLinkConfirm(
+  props: PageProps<
+    Extract<KcContext, { pageId: "login-idp-link-confirm.ftl" }>,
+    I18n
+  >,
+) {
+  const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
+  const { url, idpAlias } = kcContext
+  const { msg } = i18n
 
-    const { msg } = i18n;
-
-    return (
-        <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("confirmLinkIdpTitle")}>
-            <form id="kc-register-form" action={url.loginAction} method="post">
-                <div className={kcClsx("kcFormGroupClass")}>
-                    <button
-                        type="submit"
-                        className={kcClsx("kcButtonClass", "kcButtonDefaultClass", "kcButtonBlockClass", "kcButtonLargeClass")}
-                        name="submitAction"
-                        id="updateProfile"
-                        value="updateProfile"
-                    >
-                        {msg("confirmLinkIdpReviewProfile")}
-                    </button>
-                    <button
-                        type="submit"
-                        className={kcClsx("kcButtonClass", "kcButtonDefaultClass", "kcButtonBlockClass", "kcButtonLargeClass")}
-                        name="submitAction"
-                        id="linkAccount"
-                        value="linkAccount"
-                    >
-                        {msg("confirmLinkIdpContinue", idpAlias)}
-                    </button>
-                </div>
-            </form>
-        </Template>
-    );
+  return (
+    <Template
+      kcContext={kcContext}
+      i18n={i18n}
+      doUseDefaultCss={doUseDefaultCss}
+      classes={classes}
+      headerNode={msg("confirmLinkIdpTitle")}
+    >
+      <form
+        id="kc-register-form"
+        action={url.loginAction}
+        method="post"
+        className="space-y-3"
+      >
+        <Button
+          type="submit"
+          variant="outline"
+          className="w-full"
+          name="submitAction"
+          id="updateProfile"
+          value="updateProfile"
+        >
+          {msg("confirmLinkIdpReviewProfile")}
+        </Button>
+        <Button
+          type="submit"
+          className="w-full"
+          name="submitAction"
+          id="linkAccount"
+          value="linkAccount"
+        >
+          {msg("confirmLinkIdpContinue", idpAlias)}
+        </Button>
+      </form>
+    </Template>
+  )
 }

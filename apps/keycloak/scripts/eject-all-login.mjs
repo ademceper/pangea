@@ -57,7 +57,7 @@ const imports = entries
 const cases = entries
   .map(
     (e) =>
-      `        case "${e.pageId}":\n          return (\n            <${e.base}\n              {...{ kcContext, i18n, classes }}\n              Template={Template}\n              doUseDefaultCss={true}\n${
+      `        case "${e.pageId}":\n          return (\n            <${e.base}\n              {...{ kcContext, i18n, classes }}\n              Template={Template}\n              doUseDefaultCss={false}\n${
         needsUserProfile(e.pageId)
           ? "              UserProfileFormFields={UserProfileFormFields}\n              doMakeUserConfirmPassword={doMakeUserConfirmPassword}\n"
           : ""
