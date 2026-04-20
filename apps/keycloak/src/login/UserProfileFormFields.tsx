@@ -22,7 +22,19 @@ import type { I18n } from "./i18n"
 import { KcTextInput } from "./components/kc-form"
 
 const selectClassName =
-  "flex h-12 w-full rounded-lg border-transparent bg-muted px-4 py-2 text-base transition-colors outline-none hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-muted/60 dark:hover:bg-muted/70"
+  "flex h-12 w-full rounded-2xl border-transparent bg-muted px-4 py-2 text-base transition-colors outline-none hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-muted/60 dark:hover:bg-muted/70"
+
+function isFloatingCapable(attribute: Attribute) {
+  const t = attribute.annotations.inputType
+  if (!t) return true
+  return (
+    t !== "select" &&
+    t !== "multiselect" &&
+    t !== "select-radiobuttons" &&
+    t !== "multiselect-checkboxes" &&
+    t !== "hidden"
+  )
+}
 
 export default function UserProfileFormFields(
   props: UserProfileFormFieldsProps<KcContext, I18n>
@@ -80,15 +92,9 @@ export default function UserProfileFormFields(
                 />
               )}
               <div
-                className="space-y-2"
+                className="space-y-1"
                 style={{ display: isHidden ? "none" : undefined }}
               >
-                <Label htmlFor={attribute.name}>
-                  {advancedMsg(attribute.displayName ?? "")}
-                  {attribute.required && (
-                    <span className="ml-0.5 text-destructive">*</span>
-                  )}
-                </Label>
                 {attribute.annotations.inputHelperTextBefore !== undefined && (
                   <p
                     className="text-sm text-muted-foreground"
@@ -98,13 +104,42 @@ export default function UserProfileFormFields(
                     {advancedMsg(attribute.annotations.inputHelperTextBefore)}
                   </p>
                 )}
-                <InputFieldByType
-                  attribute={attribute}
-                  valueOrValues={valueOrValues}
-                  displayableErrors={displayableErrors}
-                  dispatchFormAction={dispatchFormAction}
-                  i18n={i18n}
-                />
+                {isFloatingCapable(attribute) ? (
+                  <div className="relative">
+                    <InputFieldByType
+                      attribute={attribute}
+                      valueOrValues={valueOrValues}
+                      displayableErrors={displayableErrors}
+                      dispatchFormAction={dispatchFormAction}
+                      i18n={i18n}
+                    />
+                    <Label
+                      htmlFor={attribute.name}
+                      className="pointer-events-none absolute top-1 left-4 z-10 text-xs text-muted-foreground transition-[top,font-size,color] duration-150 ease-out peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-xs peer-focus:text-foreground"
+                    >
+                      {advancedMsg(attribute.displayName ?? "")}
+                      {attribute.required && (
+                        <span className="ml-0.5 text-destructive">*</span>
+                      )}
+                    </Label>
+                  </div>
+                ) : (
+                  <>
+                    <Label htmlFor={attribute.name}>
+                      {advancedMsg(attribute.displayName ?? "")}
+                      {attribute.required && (
+                        <span className="ml-0.5 text-destructive">*</span>
+                      )}
+                    </Label>
+                    <InputFieldByType
+                      attribute={attribute}
+                      valueOrValues={valueOrValues}
+                      displayableErrors={displayableErrors}
+                      dispatchFormAction={dispatchFormAction}
+                      i18n={i18n}
+                    />
+                  </>
+                )}
                 <FieldErrors
                   attribute={attribute}
                   displayableErrors={displayableErrors}
@@ -286,7 +321,7 @@ function PasswordWrapper(props: {
     useIsPasswordRevealed({ passwordInputId })
 
   return (
-    <div className="relative">
+    <>
       {children}
       <button
         type="button"
@@ -295,7 +330,7 @@ function PasswordWrapper(props: {
         )}
         aria-controls={passwordInputId}
         onClick={toggleIsPasswordRevealed}
-        className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+        className="absolute inset-y-0 right-0 z-10 flex items-center px-4 text-muted-foreground hover:text-foreground"
       >
         {isPasswordRevealed ? (
           <EyeSlash className="size-4" aria-hidden />
@@ -303,7 +338,7 @@ function PasswordWrapper(props: {
           <Eye className="size-4" aria-hidden />
         )}
       </button>
-    </div>
+    </>
   )
 }
 
@@ -617,7 +652,8 @@ function TextareaTag(props: InputFieldByTypeProps) {
       name={attribute.name}
       aria-invalid={displayableErrors.length !== 0}
       disabled={attribute.readOnly}
-      className="border-transparent bg-muted hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 dark:bg-muted/60 dark:hover:bg-muted/70"
+      placeholder=" "
+      className="peer border-transparent bg-muted pt-5 pb-1 placeholder:text-transparent hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 dark:bg-muted/60 dark:hover:bg-muted/70"
       cols={
         attribute.annotations.inputTypeCols === undefined
           ? undefined

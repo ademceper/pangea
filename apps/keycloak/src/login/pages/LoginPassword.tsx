@@ -3,11 +3,11 @@ import type { PageProps } from "keycloakify/login/pages/PageProps"
 import { useScript } from "keycloakify/login/pages/LoginPassword.useScript"
 
 import { Button } from "@pangea/ui/components/button"
-import { Label } from "@pangea/ui/components/label"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
-import { KcFieldError, KcPasswordInput, KcSubmit } from "../components/kc-form"
+import { KcField, KcPasswordInput, KcSubmit } from "../components/kc-form"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function LoginPassword(
   props: PageProps<Extract<KcContext, { pageId: "login-password.ftl" }>, I18n>
@@ -51,8 +51,11 @@ export default function LoginPassword(
         method="post"
         className="space-y-4"
       >
-        <div className="space-y-2">
-          <Label htmlFor="password">{msg("password")}</Label>
+        <KcField
+          id="password"
+          label={msg("password")}
+          error={passwordErrorMessage}
+        >
           <KcPasswordInput
             tabIndex={2}
             id="password"
@@ -63,19 +66,17 @@ export default function LoginPassword(
             showLabel={msgStr("showPassword")}
             hideLabel={msgStr("hidePassword")}
           />
-          <KcFieldError
-            id="input-error-password"
-            message={passwordErrorMessage}
-          />
-        </div>
+        </KcField>
 
         {realm.resetPasswordAllowed && (
           <div className="flex justify-end">
-            <Button asChild variant="link" className="h-auto p-0 text-sm">
-              <a tabIndex={5} href={url.loginResetCredentialsUrl}>
-                {msg("doForgotPassword")}
-              </a>
-            </Button>
+            <AnimatedLink
+              tabIndex={5}
+              href={url.loginResetCredentialsUrl}
+              className="text-sm"
+            >
+              {msg("doForgotPassword")}
+            </AnimatedLink>
           </div>
         )}
 

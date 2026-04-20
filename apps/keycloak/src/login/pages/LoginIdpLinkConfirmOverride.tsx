@@ -4,6 +4,7 @@ import { Button } from "@pangea/ui/components/button"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function LoginIdpLinkConfirmOverride(
   props: PageProps<
@@ -31,11 +32,9 @@ export default function LoginIdpLinkConfirmOverride(
       >
         <p className="text-sm text-muted-foreground">
           {msg("pageExpiredMsg1")}{" "}
-          <Button asChild variant="link" className="h-auto p-0">
-            <a id="loginRestartLink" href={url.loginRestartFlowUrl}>
-              {msg("doClickHere")}
-            </a>
-          </Button>
+          <AnimatedLink id="loginRestartLink" href={url.loginRestartFlowUrl}>
+            {msg("doClickHere")}
+          </AnimatedLink>
         </p>
         <Button
           size="xl"

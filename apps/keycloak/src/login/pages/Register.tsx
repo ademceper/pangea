@@ -13,6 +13,7 @@ import { Label } from "@pangea/ui/components/label"
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 import { KcSubmit } from "../components/kc-form"
+import { AnimatedLink } from "../components/animated-link"
 
 type RegisterProps = PageProps<
   Extract<KcContext, { pageId: "register.ftl" }>,
@@ -115,9 +116,7 @@ export default function Register(props: RegisterProps) {
           )}
 
         <div className="flex items-center justify-between text-sm">
-          <Button asChild variant="link" className="h-auto p-0">
-            <a href={url.loginUrl}>{msg("backToLogin")}</a>
-          </Button>
+          <AnimatedLink href={url.loginUrl}>{msg("backToLogin")}</AnimatedLink>
         </div>
 
         {recaptchaRequired &&

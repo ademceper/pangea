@@ -1,10 +1,10 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 import { kcSanitize } from "keycloakify/lib/kcSanitize"
 
-import { Button } from "@pangea/ui/components/button"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function Error(
   props: PageProps<Extract<KcContext, { pageId: "error.ftl" }>, I18n>
@@ -28,11 +28,9 @@ export default function Error(
           dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }}
         />
         {!skipLink && !!client?.baseUrl && (
-          <Button asChild variant="link" className="h-auto p-0">
-            <a id="backToApplication" href={client.baseUrl}>
-              {msg("backToApplication")}
-            </a>
-          </Button>
+          <AnimatedLink id="backToApplication" href={client.baseUrl}>
+            {msg("backToApplication")}
+          </AnimatedLink>
         )}
       </div>
     </Template>

@@ -1,10 +1,10 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 import { kcSanitize } from "keycloakify/lib/kcSanitize"
 
-import { Button } from "@pangea/ui/components/button"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function Info(
   props: PageProps<Extract<KcContext, { pageId: "info.ftl" }>, I18n>
@@ -63,11 +63,7 @@ export default function Info(
           className="text-sm text-muted-foreground"
           dangerouslySetInnerHTML={{ __html: kcSanitize(bodyHtml) }}
         />
-        {link && (
-          <Button asChild variant="link" className="h-auto p-0">
-            <a href={link.href}>{link.label}</a>
-          </Button>
-        )}
+        {link && <AnimatedLink href={link.href}>{link.label}</AnimatedLink>}
       </div>
     </Template>
   )

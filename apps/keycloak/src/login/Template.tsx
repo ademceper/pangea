@@ -14,12 +14,6 @@ import {
 import { cn } from "@pangea/ui/lib/utils"
 import { Alert, AlertDescription } from "@pangea/ui/components/alert"
 import { Button } from "@pangea/ui/components/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@pangea/ui/components/dropdown-menu"
 
 import type { I18n } from "./i18n"
 import type { KcContext } from "./KcContext"
@@ -48,6 +42,28 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
       documentTitle ?? msgStr("loginTitle", realm.displayName || realm.name)
   }, [])
 
+  useEffect(() => {
+    if (import.meta.env.DEV) return
+    if (enabledLanguages.length <= 1) return
+
+    const KEY = "kc-lang-autoswitched"
+    if (sessionStorage.getItem(KEY)) return
+
+    const browserTag = navigator.language || navigator.languages?.[0] || ""
+    if (!browserTag) return
+
+    const match = enabledLanguages.find(
+      (l) =>
+        l.languageTag === browserTag ||
+        l.languageTag === browserTag.split("-")[0]
+    )
+
+    if (match && match.languageTag !== currentLanguage.languageTag) {
+      sessionStorage.setItem(KEY, "1")
+      window.location.href = match.href
+    }
+  }, [])
+
   useSetClassName({ qualifiedName: "html", className: "" })
   useSetClassName({
     qualifiedName: "body",
@@ -72,30 +88,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
       </header>
 
       <div className="space-y-4">
-        {enabledLanguages.length > 1 && (
-          <div className="flex justify-end">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  aria-label={msgStr("languages")}
-                  aria-haspopup="true"
-                >
-                  {currentLanguage.label}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {enabledLanguages.map(({ languageTag, label, href }) => (
-                  <DropdownMenuItem key={languageTag} asChild>
-                    <a href={href}>{label}</a>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        )}
-
         {showUsernameHeader ? (
           <div className="flex items-center justify-between gap-2">
             <span className="text-sm text-muted-foreground">

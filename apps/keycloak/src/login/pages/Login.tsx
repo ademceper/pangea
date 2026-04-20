@@ -5,13 +5,12 @@ import { useScript } from "keycloakify/login/pages/Login.useScript"
 
 import { Button } from "@pangea/ui/components/button"
 import { Checkbox } from "@pangea/ui/components/checkbox"
-import { Label } from "@pangea/ui/components/label"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
+import { AnimatedLink } from "../components/animated-link"
 import {
   KcField,
-  KcFieldError,
   KcPasswordInput,
   KcSubmit,
   KcTextInput,
@@ -68,11 +67,9 @@ export default function Login(
       infoNode={
         <span>
           {msg("noAccount")}{" "}
-          <Button asChild variant="link" className="h-auto p-0">
-            <a tabIndex={8} href={url.registrationUrl}>
-              {msg("doRegister")}
-            </a>
-          </Button>
+          <AnimatedLink tabIndex={8} href={url.registrationUrl}>
+            {msg("doRegister")}
+          </AnimatedLink>
         </span>
       }
       socialProvidersNode={
@@ -150,8 +147,11 @@ export default function Login(
             </KcField>
           )}
 
-          <div className="space-y-2">
-            <Label htmlFor="password">{msg("password")}</Label>
+          <KcField
+            id="password"
+            label={msg("password")}
+            error={usernameHidden ? credentialErrorMessage : undefined}
+          >
             <KcPasswordInput
               tabIndex={3}
               id="password"
@@ -161,10 +161,7 @@ export default function Login(
               showLabel={msgStr("showPassword")}
               hideLabel={msgStr("hidePassword")}
             />
-            {usernameHidden && (
-              <KcFieldError message={credentialErrorMessage} />
-            )}
-          </div>
+          </KcField>
 
           <div className="flex items-center justify-between gap-2">
             {realm.rememberMe && !usernameHidden ? (
@@ -181,11 +178,13 @@ export default function Login(
               <span />
             )}
             {realm.resetPasswordAllowed && (
-              <Button asChild variant="link" className="h-auto p-0 text-sm">
-                <a tabIndex={6} href={url.loginResetCredentialsUrl}>
-                  {msg("doForgotPassword")}
-                </a>
-              </Button>
+              <AnimatedLink
+                tabIndex={6}
+                href={url.loginResetCredentialsUrl}
+                className="text-sm"
+              >
+                {msg("doForgotPassword")}
+              </AnimatedLink>
             )}
           </div>
 

@@ -1,10 +1,10 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-import { Button } from "@pangea/ui/components/button"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 import { KcField, KcSubmit, KcTextInput } from "../components/kc-form"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function LoginResetPassword(
   props: PageProps<
@@ -66,9 +66,7 @@ export default function LoginResetPassword(
         <KcSubmit label={msgStr("doSubmit")} />
 
         <div className="text-center text-sm">
-          <Button asChild variant="link" className="h-auto p-0">
-            <a href={url.loginUrl}>{msg("backToLogin")}</a>
-          </Button>
+          <AnimatedLink href={url.loginUrl}>{msg("backToLogin")}</AnimatedLink>
         </div>
       </form>
     </Template>

@@ -1,10 +1,10 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-import { Button } from "@pangea/ui/components/button"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 import { KcSubmit } from "../components/kc-form"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function LogoutConfirm(
   props: PageProps<Extract<KcContext, { pageId: "logout-confirm.ftl" }>, I18n>
@@ -39,9 +39,9 @@ export default function LogoutConfirm(
           />
         </form>
         {!logoutConfirm.skipLink && client.baseUrl && (
-          <Button asChild variant="link" className="h-auto p-0">
-            <a href={client.baseUrl}>{msg("backToApplication")}</a>
-          </Button>
+          <AnimatedLink href={client.baseUrl}>
+            {msg("backToApplication")}
+          </AnimatedLink>
         )}
       </div>
     </Template>

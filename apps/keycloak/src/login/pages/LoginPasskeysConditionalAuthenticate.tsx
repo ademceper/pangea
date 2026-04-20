@@ -8,6 +8,7 @@ import { Button } from "@pangea/ui/components/button"
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 import { KcField, KcTextInput } from "../components/kc-form"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function LoginPasskeysConditionalAuthenticate(
   props: PageProps<
@@ -51,11 +52,9 @@ export default function LoginPasskeysConditionalAuthenticate(
         realm.registrationAllowed && !registrationDisabled ? (
           <span>
             {msg("noAccount")}{" "}
-            <Button asChild variant="link" className="h-auto p-0">
-              <a tabIndex={6} href={url.registrationUrl}>
-                {msg("doRegister")}
-              </a>
-            </Button>
+            <AnimatedLink tabIndex={6} href={url.registrationUrl}>
+              {msg("doRegister")}
+            </AnimatedLink>
           </span>
         ) : null
       }

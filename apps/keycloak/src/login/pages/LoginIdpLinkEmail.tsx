@@ -1,9 +1,9 @@
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-import { Button } from "@pangea/ui/components/button"
 
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function LoginIdpLinkEmail(
   props: PageProps<
@@ -34,16 +34,16 @@ export default function LoginIdpLinkEmail(
         </p>
         <p id="instruction2" className="text-sm text-muted-foreground">
           {msg("emailLinkIdp2")}{" "}
-          <Button asChild variant="link" className="h-auto p-0">
-            <a href={url.loginAction}>{msg("doClickHere")}</a>
-          </Button>{" "}
+          <AnimatedLink href={url.loginAction}>
+            {msg("doClickHere")}
+          </AnimatedLink>{" "}
           {msg("emailLinkIdp3")}
         </p>
         <p id="instruction3" className="text-sm text-muted-foreground">
           {msg("emailLinkIdp4")}{" "}
-          <Button asChild variant="link" className="h-auto p-0">
-            <a href={url.loginAction}>{msg("doClickHere")}</a>
-          </Button>{" "}
+          <AnimatedLink href={url.loginAction}>
+            {msg("doClickHere")}
+          </AnimatedLink>{" "}
           {msg("emailLinkIdp5")}
         </p>
       </div>

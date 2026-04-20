@@ -9,6 +9,7 @@ import { Checkbox } from "@pangea/ui/components/checkbox"
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 import { KcField, KcSubmit, KcTextInput } from "../components/kc-form"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function LoginUsername(
   props: PageProps<Extract<KcContext, { pageId: "login-username.ftl" }>, I18n>
@@ -56,11 +57,9 @@ export default function LoginUsername(
       infoNode={
         <span>
           {msg("noAccount")}{" "}
-          <Button asChild variant="link" className="h-auto p-0">
-            <a tabIndex={6} href={url.registrationUrl}>
-              {msg("doRegister")}
-            </a>
-          </Button>
+          <AnimatedLink tabIndex={6} href={url.registrationUrl}>
+            {msg("doRegister")}
+          </AnimatedLink>
         </span>
       }
       headerNode={msg("doLogIn")}

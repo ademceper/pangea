@@ -7,6 +7,7 @@ import { Checkbox } from "@pangea/ui/components/checkbox"
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 import { KcField, KcSubmit, KcTextInput } from "../components/kc-form"
+import { AnimatedLink } from "../components/animated-link"
 
 export default function LoginConfigTotp(
   props: PageProps<
@@ -56,11 +57,9 @@ export default function LoginConfigTotp(
                 </span>
               </p>
               <p className="mt-2">
-                <Button asChild variant="link" className="h-auto p-0">
-                  <a href={totp.qrUrl} id="mode-barcode">
-                    {msg("loginTotpScanBarcode")}
-                  </a>
-                </Button>
+                <AnimatedLink href={totp.qrUrl} id="mode-barcode">
+                  {msg("loginTotpScanBarcode")}
+                </AnimatedLink>
               </p>
             </li>
             <li>
@@ -97,11 +96,9 @@ export default function LoginConfigTotp(
               className="my-2"
             />
             <p>
-              <Button asChild variant="link" className="h-auto p-0">
-                <a href={totp.manualUrl} id="mode-manual">
-                  {msg("loginTotpUnableToScan")}
-                </a>
-              </Button>
+              <AnimatedLink href={totp.manualUrl} id="mode-manual">
+                {msg("loginTotpUnableToScan")}
+              </AnimatedLink>
             </p>
           </li>
         )}
