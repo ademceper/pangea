@@ -1,47 +1,48 @@
-import { getKcClsx } from "keycloakify/login/lib/kcClsx";
-import type { PageProps } from "keycloakify/login/pages/PageProps";
-import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
+import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-export default function Terms(props: PageProps<Extract<KcContext, { pageId: "terms.ftl" }>, I18n>) {
-    const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
+import { Button } from "@pangea/ui/components/button"
 
-    const { kcClsx } = getKcClsx({
-        doUseDefaultCss,
-        classes
-    });
+import type { KcContext } from "../KcContext"
+import type { I18n } from "../i18n"
 
-    const { msg, msgStr } = i18n;
+export default function Terms(
+  props: PageProps<Extract<KcContext, { pageId: "terms.ftl" }>, I18n>,
+) {
+  const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
+  const { msg, msgStr } = i18n
+  const { url } = kcContext
 
-    const { url } = kcContext;
-
-    return (
-        <Template
-            kcContext={kcContext}
-            i18n={i18n}
-            doUseDefaultCss={doUseDefaultCss}
-            classes={classes}
-            displayMessage={false}
-            headerNode={msg("termsTitle")}
+  return (
+    <Template
+      kcContext={kcContext}
+      i18n={i18n}
+      doUseDefaultCss={doUseDefaultCss}
+      classes={classes}
+      displayMessage={false}
+      headerNode={msg("termsTitle")}
+    >
+      <div className="space-y-4">
+        <div className="max-h-80 overflow-y-auto rounded-md border bg-muted/30 p-4 text-sm">
+          {msg("termsText")}
+        </div>
+        <form
+          action={url.loginAction}
+          method="POST"
+          className="grid grid-cols-2 gap-2"
         >
-            <div id="kc-terms-text">{msg("termsText")}</div>
-            <form className="form-actions" action={url.loginAction} method="POST">
-                <input
-                    className={kcClsx("kcButtonClass", "kcButtonClass", "kcButtonClass", "kcButtonPrimaryClass", "kcButtonLargeClass")}
-                    name="accept"
-                    id="kc-accept"
-                    type="submit"
-                    value={msgStr("doAccept")}
-                />
-                <input
-                    className={kcClsx("kcButtonClass", "kcButtonDefaultClass", "kcButtonLargeClass")}
-                    name="cancel"
-                    id="kc-decline"
-                    type="submit"
-                    value={msgStr("doDecline")}
-                />
-            </form>
-            <div className="clearfix" />
-        </Template>
-    );
+          <Button type="submit" name="accept" id="kc-accept">
+            {msgStr("doAccept")}
+          </Button>
+          <Button
+            type="submit"
+            name="cancel"
+            id="kc-decline"
+            variant="outline"
+          >
+            {msgStr("doDecline")}
+          </Button>
+        </form>
+      </div>
+    </Template>
+  )
 }

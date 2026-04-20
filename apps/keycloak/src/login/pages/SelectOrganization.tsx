@@ -1,69 +1,88 @@
-import { MouseEvent, useRef, useState } from "react";
-import { getKcClsx } from "keycloakify/login/lib/kcClsx";
-import type { PageProps } from "keycloakify/login/pages/PageProps";
-import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
+import { type MouseEvent, useRef, useState } from "react"
+import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-export default function SelectOrganization(props: PageProps<Extract<KcContext, { pageId: "select-organization.ftl" }>, I18n>) {
-    const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
+import { cn } from "@pangea/ui/lib/utils"
 
-    const { kcClsx } = getKcClsx({
-        doUseDefaultCss,
-        classes
-    });
+import type { KcContext } from "../KcContext"
+import type { I18n } from "../i18n"
 
-    const { url, user } = kcContext;
+export default function SelectOrganization(
+  props: PageProps<
+    Extract<KcContext, { pageId: "select-organization.ftl" }>,
+    I18n
+  >,
+) {
+  const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
+  const { url, user } = kcContext
+  const { msg } = i18n
 
-    const { msg } = i18n;
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
+  const organizationInputRef = useRef<HTMLInputElement>(null)
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const formRef = useRef<HTMLFormElement>(null);
-    const organizationInputRef = useRef<HTMLInputElement>(null);
+  const onOrganizationClick =
+    (organizationAlias: string) => (event: MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault()
 
-    const onOrganizationClick = (organizationAlias: string) => (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+      if (!organizationInputRef.current || !formRef.current) {
+        return
+      }
 
-        if (!organizationInputRef.current || !formRef.current) {
-            return;
-        }
+      organizationInputRef.current.value = organizationAlias
+      setIsSubmitting(true)
 
-        organizationInputRef.current.value = organizationAlias;
-        setIsSubmitting(true);
+      if (typeof formRef.current.requestSubmit === "function") {
+        formRef.current.requestSubmit()
+        return
+      }
 
-        if (typeof formRef.current.requestSubmit === "function") {
-            formRef.current.requestSubmit();
-            return;
-        }
+      formRef.current.submit()
+    }
 
-        formRef.current.submit();
-    };
+  const organizations = user.organizations ?? []
+  const shouldDisplayGrid = organizations.length > 3
 
-    const organizations = user.organizations ?? [];
-    const shouldDisplayGrid = organizations.length > 3;
-
-    return (
-        <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={null}>
-            <form ref={formRef} action={url.loginAction} className="form-vertical" method="post">
-                <div id="kc-user-organizations" className={kcClsx("kcFormGroupClass")}>
-                    <h2>{msg("organization.select")}</h2>
-                    <ul className={kcClsx("kcFormSocialAccountListClass", shouldDisplayGrid && "kcFormSocialAccountListGridClass")}>
-                        {organizations.map(({ alias, name }) => (
-                            <li key={alias}>
-                                <button
-                                    id={`organization-${alias}`}
-                                    className={kcClsx("kcFormSocialAccountListButtonClass", shouldDisplayGrid && "kcFormSocialAccountGridItem")}
-                                    type="button"
-                                    onClick={onOrganizationClick(alias)}
-                                    disabled={isSubmitting}
-                                >
-                                    <span className={kcClsx("kcFormSocialAccountNameClass")}>{name ?? alias}</span>
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <input ref={organizationInputRef} type="hidden" name="kc.org" />
-            </form>
-        </Template>
-    );
+  return (
+    <Template
+      kcContext={kcContext}
+      i18n={i18n}
+      doUseDefaultCss={doUseDefaultCss}
+      classes={classes}
+      headerNode={null}
+    >
+      <form
+        ref={formRef}
+        action={url.loginAction}
+        method="POST"
+        className="space-y-4"
+      >
+        <div id="kc-user-organizations" className="space-y-3">
+          <h2 className="text-lg font-semibold">{msg("organization.select")}</h2>
+          <ul
+            className={cn(
+              "gap-2",
+              shouldDisplayGrid
+                ? "grid grid-cols-2"
+                : "flex flex-col",
+            )}
+          >
+            {organizations.map(({ alias, name }) => (
+              <li key={alias}>
+                <button
+                  id={`organization-${alias}`}
+                  type="button"
+                  onClick={onOrganizationClick(alias)}
+                  disabled={isSubmitting}
+                  className="flex w-full items-center rounded-lg border p-4 text-left transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <span className="font-medium">{name ?? alias}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <input ref={organizationInputRef} type="hidden" name="kc.org" />
+      </form>
+    </Template>
+  )
 }

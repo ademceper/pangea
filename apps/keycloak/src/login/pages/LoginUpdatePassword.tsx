@@ -1,163 +1,97 @@
-import type { JSX } from "keycloakify/tools/JSX";
-import { useIsPasswordRevealed } from "keycloakify/tools/useIsPasswordRevealed";
-import { kcSanitize } from "keycloakify/lib/kcSanitize";
-import { getKcClsx, type KcClsx } from "keycloakify/login/lib/kcClsx";
-import type { PageProps } from "keycloakify/login/pages/PageProps";
-import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
+import type { PageProps } from "keycloakify/login/pages/PageProps"
 
-export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, { pageId: "login-update-password.ftl" }>, I18n>) {
-    const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
+import { Button } from "@pangea/ui/components/button"
+import { Checkbox } from "@pangea/ui/components/checkbox"
 
-    const { kcClsx } = getKcClsx({
-        doUseDefaultCss,
-        classes
-    });
+import type { KcContext } from "../KcContext"
+import type { I18n } from "../i18n"
+import { KcField, KcPasswordInput, KcSubmit } from "../components/kc-form"
 
-    const { msg, msgStr } = i18n;
+export default function LoginUpdatePassword(
+  props: PageProps<
+    Extract<KcContext, { pageId: "login-update-password.ftl" }>,
+    I18n
+  >,
+) {
+  const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
+  const { msg, msgStr } = i18n
+  const { url, messagesPerField, isAppInitiatedAction } = kcContext
 
-    const { url, messagesPerField, isAppInitiatedAction } = kcContext;
+  const hasAnyError = messagesPerField.existsError("password", "password-confirm")
+  const passwordError = messagesPerField.existsError("password")
+    ? messagesPerField.get("password")
+    : undefined
+  const passwordConfirmError = messagesPerField.existsError("password-confirm")
+    ? messagesPerField.get("password-confirm")
+    : undefined
 
-    return (
-        <Template
-            kcContext={kcContext}
-            i18n={i18n}
-            doUseDefaultCss={doUseDefaultCss}
-            classes={classes}
-            displayMessage={!messagesPerField.existsError("password", "password-confirm")}
-            headerNode={msg("updatePasswordTitle")}
+  return (
+    <Template
+      kcContext={kcContext}
+      i18n={i18n}
+      doUseDefaultCss={doUseDefaultCss}
+      classes={classes}
+      displayMessage={!hasAnyError}
+      headerNode={msg("updatePasswordTitle")}
+    >
+      <form
+        id="kc-passwd-update-form"
+        action={url.loginAction}
+        method="post"
+        className="space-y-4"
+      >
+        <KcField
+          id="password-new"
+          label={msg("passwordNew")}
+          error={passwordError}
         >
-            <form id="kc-passwd-update-form" className={kcClsx("kcFormClass")} action={url.loginAction} method="post">
-                <div className={kcClsx("kcFormGroupClass")}>
-                    <div className={kcClsx("kcLabelWrapperClass")}>
-                        <label htmlFor="password-new" className={kcClsx("kcLabelClass")}>
-                            {msg("passwordNew")}
-                        </label>
-                    </div>
-                    <div className={kcClsx("kcInputWrapperClass")}>
-                        <PasswordWrapper kcClsx={kcClsx} i18n={i18n} passwordInputId="password-new">
-                            <input
-                                type="password"
-                                id="password-new"
-                                name="password-new"
-                                className={kcClsx("kcInputClass")}
-                                autoFocus
-                                autoComplete="new-password"
-                                aria-invalid={messagesPerField.existsError("password", "password-confirm")}
-                            />
-                        </PasswordWrapper>
+          <KcPasswordInput
+            id="password-new"
+            name="password-new"
+            autoFocus
+            autoComplete="new-password"
+            invalid={hasAnyError}
+            showLabel={msgStr("showPassword")}
+            hideLabel={msgStr("hidePassword")}
+          />
+        </KcField>
 
-                        {messagesPerField.existsError("password") && (
-                            <span
-                                id="input-error-password"
-                                className={kcClsx("kcInputErrorMessageClass")}
-                                aria-live="polite"
-                                dangerouslySetInnerHTML={{
-                                    __html: kcSanitize(messagesPerField.get("password"))
-                                }}
-                            />
-                        )}
-                    </div>
-                </div>
+        <KcField
+          id="password-confirm"
+          label={msg("passwordConfirm")}
+          error={passwordConfirmError}
+        >
+          <KcPasswordInput
+            id="password-confirm"
+            name="password-confirm"
+            autoComplete="new-password"
+            invalid={hasAnyError}
+            showLabel={msgStr("showPassword")}
+            hideLabel={msgStr("hidePassword")}
+          />
+        </KcField>
 
-                <div className={kcClsx("kcFormGroupClass")}>
-                    <div className={kcClsx("kcLabelWrapperClass")}>
-                        <label htmlFor="password-confirm" className={kcClsx("kcLabelClass")}>
-                            {msg("passwordConfirm")}
-                        </label>
-                    </div>
-                    <div className={kcClsx("kcInputWrapperClass")}>
-                        <PasswordWrapper kcClsx={kcClsx} i18n={i18n} passwordInputId="password-confirm">
-                            <input
-                                type="password"
-                                id="password-confirm"
-                                name="password-confirm"
-                                className={kcClsx("kcInputClass")}
-                                autoComplete="new-password"
-                                aria-invalid={messagesPerField.existsError("password", "password-confirm")}
-                            />
-                        </PasswordWrapper>
+        <label className="flex items-center gap-2 text-sm">
+          <Checkbox
+            id="logout-sessions"
+            name="logout-sessions"
+            value="on"
+            defaultChecked
+          />
+          {msg("logoutOtherSessions")}
+        </label>
 
-                        {messagesPerField.existsError("password-confirm") && (
-                            <span
-                                id="input-error-password-confirm"
-                                className={kcClsx("kcInputErrorMessageClass")}
-                                aria-live="polite"
-                                dangerouslySetInnerHTML={{
-                                    __html: kcSanitize(messagesPerField.get("password-confirm"))
-                                }}
-                            />
-                        )}
-                    </div>
-                </div>
-                <div className={kcClsx("kcFormGroupClass")}>
-                    <LogoutOtherSessions kcClsx={kcClsx} i18n={i18n} />
-                    <div id="kc-form-buttons" className={kcClsx("kcFormButtonsClass")}>
-                        <input
-                            className={kcClsx(
-                                "kcButtonClass",
-                                "kcButtonPrimaryClass",
-                                !isAppInitiatedAction && "kcButtonBlockClass",
-                                "kcButtonLargeClass"
-                            )}
-                            type="submit"
-                            value={msgStr("doSubmit")}
-                        />
-                        {isAppInitiatedAction && (
-                            <button
-                                className={kcClsx("kcButtonClass", "kcButtonDefaultClass", "kcButtonLargeClass")}
-                                type="submit"
-                                name="cancel-aia"
-                                value="true"
-                            >
-                                {msg("doCancel")}
-                            </button>
-                        )}
-                    </div>
-                </div>
-            </form>
-        </Template>
-    );
-}
-
-function LogoutOtherSessions(props: { kcClsx: KcClsx; i18n: I18n }) {
-    const { kcClsx, i18n } = props;
-
-    const { msg } = i18n;
-
-    return (
-        <div id="kc-form-options" className={kcClsx("kcFormOptionsClass")}>
-            <div className={kcClsx("kcFormOptionsWrapperClass")}>
-                <div className="checkbox">
-                    <label>
-                        <input type="checkbox" id="logout-sessions" name="logout-sessions" value="on" defaultChecked={true} />
-                        {msg("logoutOtherSessions")}
-                    </label>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function PasswordWrapper(props: { kcClsx: KcClsx; i18n: I18n; passwordInputId: string; children: JSX.Element }) {
-    const { kcClsx, i18n, passwordInputId, children } = props;
-
-    const { msgStr } = i18n;
-
-    const { isPasswordRevealed, toggleIsPasswordRevealed } = useIsPasswordRevealed({ passwordInputId });
-
-    return (
-        <div className={kcClsx("kcInputGroup")}>
-            {children}
-            <button
-                type="button"
-                className={kcClsx("kcFormPasswordVisibilityButtonClass")}
-                aria-label={msgStr(isPasswordRevealed ? "hidePassword" : "showPassword")}
-                aria-controls={passwordInputId}
-                onClick={toggleIsPasswordRevealed}
-            >
-                <i className={kcClsx(isPasswordRevealed ? "kcFormPasswordVisibilityIconHide" : "kcFormPasswordVisibilityIconShow")} aria-hidden />
-            </button>
-        </div>
-    );
+        {isAppInitiatedAction ? (
+          <div className="grid grid-cols-2 gap-2">
+            <KcSubmit label={msgStr("doSubmit")} />
+            <Button type="submit" variant="outline" name="cancel-aia" value="true">
+              {msg("doCancel")}
+            </Button>
+          </div>
+        ) : (
+          <KcSubmit label={msgStr("doSubmit")} />
+        )}
+      </form>
+    </Template>
+  )
 }

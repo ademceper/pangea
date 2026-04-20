@@ -1,176 +1,216 @@
-import { Fragment } from "react";
-import { clsx } from "keycloakify/tools/clsx";
-import type { PageProps } from "keycloakify/login/pages/PageProps";
-import { getKcClsx } from "keycloakify/login/lib/kcClsx";
-import { useScript } from "keycloakify/login/pages/LoginPasskeysConditionalAuthenticate.useScript";
-import type { KcContext } from "../KcContext";
-import type { I18n } from "../i18n";
+import { Fragment } from "react"
+import { kcSanitize } from "keycloakify/lib/kcSanitize"
+import type { PageProps } from "keycloakify/login/pages/PageProps"
+import { useScript } from "keycloakify/login/pages/LoginPasskeysConditionalAuthenticate.useScript"
+
+import { Button } from "@pangea/ui/components/button"
+
+import type { KcContext } from "../KcContext"
+import type { I18n } from "../i18n"
+import { KcField, KcTextInput } from "../components/kc-form"
 
 export default function LoginPasskeysConditionalAuthenticate(
-    props: PageProps<Extract<KcContext, { pageId: "login-passkeys-conditional-authenticate.ftl" }>, I18n>
+  props: PageProps<
+    Extract<KcContext, { pageId: "login-passkeys-conditional-authenticate.ftl" }>,
+    I18n
+  >,
 ) {
-    const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
+  const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
+  const {
+    messagesPerField,
+    login,
+    url,
+    usernameHidden,
+    shouldDisplayAuthenticators,
+    authenticators,
+    registrationDisabled,
+    realm,
+  } = kcContext
+  const { msg, msgStr, advancedMsg } = i18n
 
-    const { messagesPerField, login, url, usernameHidden, shouldDisplayAuthenticators, authenticators, registrationDisabled, realm } = kcContext;
+  const authButtonId = "authenticateWebAuthnButton"
 
-    const { msg, msgStr, advancedMsg } = i18n;
+  useScript({ authButtonId, kcContext, i18n })
 
-    const { kcClsx } = getKcClsx({
-        doUseDefaultCss,
-        classes
-    });
+  const hasUsernameError = messagesPerField.existsError("username")
+  const usernameErrorMessage = hasUsernameError
+    ? messagesPerField.get("username")
+    : undefined
 
-    const authButtonId = "authenticateWebAuthnButton";
+  return (
+    <Template
+      kcContext={kcContext}
+      i18n={i18n}
+      doUseDefaultCss={doUseDefaultCss}
+      classes={classes}
+      headerNode={msg("passkey-login-title")}
+      infoNode={
+        realm.registrationAllowed && !registrationDisabled ? (
+          <span>
+            {msg("noAccount")}{" "}
+            <Button asChild variant="link" className="h-auto p-0">
+              <a tabIndex={6} href={url.registrationUrl}>
+                {msg("doRegister")}
+              </a>
+            </Button>
+          </span>
+        ) : null
+      }
+    >
+      <div className="space-y-4">
+        <form id="webauth" action={url.loginAction} method="POST">
+          <input type="hidden" id="clientDataJSON" name="clientDataJSON" />
+          <input
+            type="hidden"
+            id="authenticatorData"
+            name="authenticatorData"
+          />
+          <input type="hidden" id="signature" name="signature" />
+          <input type="hidden" id="credentialId" name="credentialId" />
+          <input type="hidden" id="userHandle" name="userHandle" />
+          <input type="hidden" id="error" name="error" />
+        </form>
 
-    useScript({ authButtonId, kcContext, i18n });
+        {authenticators !== undefined &&
+          Object.keys(authenticators).length !== 0 && (
+            <>
+              <form id="authn_select">
+                {authenticators.authenticators.map((authenticator, i) => (
+                  <input
+                    key={i}
+                    type="hidden"
+                    name="authn_use_chk"
+                    readOnly
+                    value={authenticator.credentialId}
+                  />
+                ))}
+              </form>
 
-    return (
-        <Template
-            kcContext={kcContext}
-            i18n={i18n}
-            doUseDefaultCss={doUseDefaultCss}
-            classes={classes}
-            headerNode={msg("passkey-login-title")}
-            infoNode={
-                realm.registrationAllowed &&
-                !registrationDisabled && (
-                    <div id="kc-registration">
-                        <span>
-                            ${msg("noAccount")}{" "}
-                            <a tabIndex={6} href={url.registrationUrl}>
-                                {msg("doRegister")}
-                            </a>
-                        </span>
-                    </div>
-                )
-            }
-        >
-            <form id="webauth" action={url.loginAction} method="post">
-                <input type="hidden" id="clientDataJSON" name="clientDataJSON" />
-                <input type="hidden" id="authenticatorData" name="authenticatorData" />
-                <input type="hidden" id="signature" name="signature" />
-                <input type="hidden" id="credentialId" name="credentialId" />
-                <input type="hidden" id="userHandle" name="userHandle" />
-                <input type="hidden" id="error" name="error" />
-            </form>
-
-            <div className={kcClsx("kcFormGroupClass")} no-bottom-margin="true" style={{ marginBottom: 0 }}>
-                {authenticators !== undefined && Object.keys(authenticators).length !== 0 && (
-                    <>
-                        <form id="authn_select" className={kcClsx("kcFormClass")}>
-                            {authenticators.authenticators.map((authenticator, i) => (
-                                <input key={i} type="hidden" name="authn_use_chk" readOnly value={authenticator.credentialId} />
-                            ))}
-                        </form>
-                        {shouldDisplayAuthenticators && (
-                            <>
-                                {authenticators.authenticators.length > 1 && (
-                                    <p className={kcClsx("kcSelectAuthListItemTitle")}>{msg("passkey-available-authenticators")}</p>
-                                )}
-                                <div className={kcClsx("kcFormClass")}>
-                                    {authenticators.authenticators.map((authenticator, i) => (
-                                        <div key={i} id={`kc-webauthn-authenticator-item-${i}`} className={kcClsx("kcSelectAuthListItemClass")}>
-                                            <i
-                                                className={clsx(
-                                                    (() => {
-                                                        const className = kcClsx(authenticator.transports.iconClass as any);
-                                                        if (className === authenticator.transports.iconClass) {
-                                                            return kcClsx("kcWebAuthnDefaultIcon");
-                                                        }
-                                                        return className;
-                                                    })(),
-                                                    kcClsx("kcSelectAuthListItemIconPropertyClass")
-                                                )}
-                                            />
-                                            <div className={kcClsx("kcSelectAuthListItemBodyClass")}>
-                                                <div
-                                                    id={`kc-webauthn-authenticator-label-${i}`}
-                                                    className={kcClsx("kcSelectAuthListItemHeadingClass")}
-                                                >
-                                                    {advancedMsg(authenticator.label)}
-                                                </div>
-                                                {authenticator.transports !== undefined &&
-                                                    authenticator.transports.displayNameProperties !== undefined &&
-                                                    authenticator.transports.displayNameProperties.length !== 0 && (
-                                                        <div
-                                                            id={`kc-webauthn-authenticator-transport-${i}`}
-                                                            className={kcClsx("kcSelectAuthListItemDescriptionClass")}
-                                                        >
-                                                            {authenticator.transports.displayNameProperties.map((nameProperty, i, arr) => (
-                                                                <Fragment key={i}>
-                                                                    <span key={i}> {advancedMsg(nameProperty)} </span>
-                                                                    {i !== arr.length - 1 && <span>, </span>}
-                                                                </Fragment>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                <div className={kcClsx("kcSelectAuthListItemDescriptionClass")}>
-                                                    <span id={`kc-webauthn-authenticator-createdlabel-${i}`}>{msg("passkey-createdAt-label")}</span>
-                                                    <span id={`kc-webauthn-authenticator-created-${i}`}>{authenticator.createdAt}</span>
-                                                </div>
-                                            </div>
-                                            <div className={kcClsx("kcSelectAuthListItemFillClass")} />
-                                        </div>
-                                    ))}
-                                </div>
-                            </>
-                        )}
-                    </>
-                )}
-                <div id="kc-form">
-                    <div id="kc-form-wrapper">
-                        {realm.password && (
-                            <form
-                                id="kc-form-login"
-                                action={url.loginAction}
-                                method="post"
-                                style={{ display: "none" }}
-                                onSubmit={event => {
-                                    try {
-                                        // @ts-expect-error
-                                        event.target.login.disabled = true;
-                                    } catch {}
-
-                                    return true;
-                                }}
-                            >
-                                {!usernameHidden && (
-                                    <div className={kcClsx("kcFormGroupClass")}>
-                                        <label htmlFor="username" className={kcClsx("kcLabelClass")}>
-                                            {msg("passkey-autofill-select")}
-                                        </label>
-                                        <input
-                                            tabIndex={1}
-                                            id="username"
-                                            aria-invalid={messagesPerField.existsError("username")}
-                                            className={kcClsx("kcInputClass")}
-                                            name="username"
-                                            defaultValue={login.username ?? ""}
-                                            autoComplete="username webauthn"
-                                            type="text"
-                                            autoFocus
-                                        />
-                                        {messagesPerField.existsError("username") && (
-                                            <span id="input-error-username" className={kcClsx("kcInputErrorMessageClass")} aria-live="polite">
-                                                {messagesPerField.get("username")}
-                                            </span>
-                                        )}
-                                    </div>
-                                )}
-                            </form>
-                        )}
-                        <div id="kc-form-passkey-button" className={kcClsx("kcFormButtonsClass")} style={{ display: "none" }}>
-                            <input
-                                id={authButtonId}
-                                type="button"
-                                autoFocus
-                                value={msgStr("passkey-doAuthenticate")}
-                                className={kcClsx("kcButtonClass", "kcButtonPrimaryClass", "kcButtonBlockClass", "kcButtonLargeClass")}
-                            />
+              {shouldDisplayAuthenticators && (
+                <div className="space-y-2">
+                  {authenticators.authenticators.length > 1 && (
+                    <p className="text-sm font-medium">
+                      {msg("passkey-available-authenticators")}
+                    </p>
+                  )}
+                  <div className="space-y-2">
+                    {authenticators.authenticators.map((authenticator, i) => (
+                      <div
+                        key={i}
+                        id={`kc-webauthn-authenticator-item-${i}`}
+                        className="flex items-start gap-3 rounded-lg border p-4"
+                      >
+                        <div className="flex size-10 shrink-0 items-center justify-center text-muted-foreground">
+                          <i
+                            className={authenticator.transports.iconClass}
+                            aria-hidden
+                          />
                         </div>
-                    </div>
+                        <div className="flex-1 space-y-1">
+                          <div
+                            id={`kc-webauthn-authenticator-label-${i}`}
+                            className="font-medium"
+                          >
+                            {advancedMsg(authenticator.label)}
+                          </div>
+                          {authenticator.transports?.displayNameProperties
+                            ?.length ? (
+                            <div
+                              id={`kc-webauthn-authenticator-transport-${i}`}
+                              className="text-sm text-muted-foreground"
+                            >
+                              {authenticator.transports.displayNameProperties.map(
+                                (nameProperty, idx, arr) => (
+                                  <Fragment key={idx}>
+                                    <span>{advancedMsg(nameProperty)}</span>
+                                    {idx !== arr.length - 1 && <span>, </span>}
+                                  </Fragment>
+                                ),
+                              )}
+                            </div>
+                          ) : null}
+                          <div className="text-sm text-muted-foreground">
+                            <span
+                              id={`kc-webauthn-authenticator-createdlabel-${i}`}
+                            >
+                              {msg("passkey-createdAt-label")}
+                            </span>{" "}
+                            <span id={`kc-webauthn-authenticator-created-${i}`}>
+                              {authenticator.createdAt}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+              )}
+            </>
+          )}
+
+        <div id="kc-form">
+          <div id="kc-form-wrapper">
+            {realm.password && (
+              <form
+                id="kc-form-login"
+                action={url.loginAction}
+                method="POST"
+                style={{ display: "none" }}
+                onSubmit={(event) => {
+                  try {
+                    // @ts-expect-error
+                    event.target.login.disabled = true
+                  } catch {}
+
+                  return true
+                }}
+              >
+                {!usernameHidden && (
+                  <KcField
+                    id="username"
+                    label={msg("passkey-autofill-select")}
+                    error={usernameErrorMessage}
+                  >
+                    <KcTextInput
+                      tabIndex={1}
+                      id="username"
+                      name="username"
+                      defaultValue={login.username ?? ""}
+                      autoComplete="username webauthn"
+                      type="text"
+                      autoFocus
+                      invalid={hasUsernameError}
+                    />
+                    {hasUsernameError && usernameErrorMessage && (
+                      <p
+                        id="input-error-username"
+                        className="text-sm text-destructive"
+                        aria-live="polite"
+                        dangerouslySetInnerHTML={{
+                          __html: kcSanitize(usernameErrorMessage),
+                        }}
+                      />
+                    )}
+                  </KcField>
+                )}
+              </form>
+            )}
+            <div
+              id="kc-form-passkey-button"
+              style={{ display: "none" }}
+            >
+              <Button
+                id={authButtonId}
+                type="button"
+                autoFocus
+                className="w-full"
+              >
+                {msgStr("passkey-doAuthenticate")}
+              </Button>
             </div>
-        </Template>
-    );
+          </div>
+        </div>
+      </div>
+    </Template>
+  )
 }
