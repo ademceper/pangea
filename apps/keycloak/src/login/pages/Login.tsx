@@ -9,6 +9,7 @@ import { Checkbox } from "@pangea/ui/components/checkbox"
 import type { KcContext } from "../KcContext"
 import type { I18n } from "../i18n"
 import { AnimatedLink } from "../components/animated-link"
+import { SocialProviderIcon } from "../components/social-provider-icon"
 import {
   KcField,
   KcPasswordInput,
@@ -82,30 +83,24 @@ export default function Login(
               </span>
               <div className="h-px flex-1 bg-border" />
             </div>
-            <ul
-              className={
-                social.providers.length > 3
-                  ? "grid grid-cols-2 gap-2"
-                  : "flex flex-col gap-2"
-              }
-            >
+            <ul className="flex flex-col gap-2">
               {social.providers.map((p) => (
                 <li key={p.alias}>
                   <Button
                     size="xl"
                     asChild
                     variant="outline"
-                    className="w-full justify-start"
+                    className="relative w-full justify-center text-sm"
                   >
                     <a id={`social-${p.alias}`} href={p.loginUrl}>
-                      {p.iconClasses && (
-                        <i className={p.iconClasses} aria-hidden />
-                      )}
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: kcSanitize(p.displayName),
-                        }}
+                      <SocialProviderIcon
+                        alias={p.alias}
+                        iconClasses={p.iconClasses}
+                        className="absolute left-4 size-5"
                       />
+                      <span>
+                        {msgStr("loginSocialWith", kcSanitize(p.displayName))}
+                      </span>
                     </a>
                   </Button>
                 </li>

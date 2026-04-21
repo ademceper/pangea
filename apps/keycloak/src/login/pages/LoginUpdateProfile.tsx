@@ -46,7 +46,6 @@ export default function LoginUpdateProfile(props: LoginUpdateProfileProps) {
       i18n={i18n}
       doUseDefaultCss={doUseDefaultCss}
       classes={classes}
-      displayRequiredFields
       headerNode={msg("loginProfileTitle")}
       displayMessage={messagesPerField.exists("global")}
     >

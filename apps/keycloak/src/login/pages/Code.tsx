@@ -1,5 +1,7 @@
+import { useState } from "react"
 import { kcSanitize } from "keycloakify/lib/kcSanitize"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
+import { Check, Copy } from "@phosphor-icons/react"
 
 import { Input } from "@pangea/ui/components/input"
 
@@ -12,6 +14,19 @@ export default function Code(
   const { kcContext, i18n, doUseDefaultCss, Template, classes } = props
   const { code } = kcContext
   const { msg } = i18n
+
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    if (!code.code) return
+    try {
+      await navigator.clipboard.writeText(code.code)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1500)
+    } catch {
+      /* ignore */
+    }
+  }
 
   return (
     <Template
@@ -31,7 +46,28 @@ export default function Code(
             <p className="text-sm text-muted-foreground">
               {msg("copyCodeInstruction")}
             </p>
-            <Input id="code" defaultValue={code.code} readOnly />
+            <div className="relative">
+              <Input
+                id="code"
+                size="xl"
+                variant="secondary"
+                defaultValue={code.code}
+                readOnly
+                className="pr-12 text-center"
+              />
+              <button
+                type="button"
+                onClick={handleCopy}
+                aria-label={copied ? "Copied" : "Copy"}
+                className="absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground hover:text-foreground"
+              >
+                {copied ? (
+                  <Check className="size-5 text-emerald-500" aria-hidden />
+                ) : (
+                  <Copy className="size-5" aria-hidden />
+                )}
+              </button>
+            </div>
           </>
         ) : (
           code.error && (

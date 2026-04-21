@@ -24,7 +24,7 @@ export function AnimatedLink({
     >
       {children}
       <svg
-        className="mt-[0em] ml-[0.3em] size-[0.55em] translate-y-1 opacity-0 transition-all duration-300 motion-reduce:transition-none group-hover:translate-y-0 group-hover:opacity-100"
+        className="mt-0 ml-[0.3em] size-[0.55em] translate-y-1 opacity-0 transition-all duration-300 motion-reduce:transition-none group-hover:translate-y-0 group-hover:opacity-100"
         fill="none"
         viewBox="0 0 10 10"
         xmlns="http://www.w3.org/2000/svg"

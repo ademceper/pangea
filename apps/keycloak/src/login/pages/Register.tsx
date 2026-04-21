@@ -80,7 +80,6 @@ export default function Register(props: RegisterProps) {
           : msg("registerTitle")
       }
       displayMessage={messagesPerField.exists("global")}
-      displayRequiredFields
     >
       <form
         id="kc-register-form"
@@ -115,10 +114,6 @@ export default function Register(props: RegisterProps) {
             />
           )}
 
-        <div className="flex items-center justify-between text-sm">
-          <AnimatedLink href={url.loginUrl}>{msg("backToLogin")}</AnimatedLink>
-        </div>
-
         {recaptchaRequired &&
         !recaptchaVisible &&
         recaptchaAction !== undefined ? (
@@ -135,6 +130,10 @@ export default function Register(props: RegisterProps) {
         ) : (
           <KcSubmit label={msgStr("doRegister")} disabled={isSubmitDisabled} />
         )}
+
+        <div className="flex justify-center">
+          <AnimatedLink href={url.loginUrl}>{msg("backToLogin")}</AnimatedLink>
+        </div>
       </form>
     </Template>
   )

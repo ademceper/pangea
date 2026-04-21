@@ -45,7 +45,6 @@ export default function IdpReviewUserProfile(props: IdpReviewUserProfileProps) {
       doUseDefaultCss={doUseDefaultCss}
       classes={classes}
       displayMessage={messagesPerField.exists("global")}
-      displayRequiredFields
       headerNode={msg("loginIdpReviewProfileTitle")}
     >
       <form

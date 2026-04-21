@@ -39,9 +39,11 @@ export default function LogoutConfirm(
           />
         </form>
         {!logoutConfirm.skipLink && client.baseUrl && (
-          <AnimatedLink href={client.baseUrl}>
-            {msg("backToApplication")}
-          </AnimatedLink>
+          <div className="flex justify-center">
+            <AnimatedLink href={client.baseUrl}>
+              {msg("backToApplication")}
+            </AnimatedLink>
+          </div>
         )}
       </div>
     </Template>

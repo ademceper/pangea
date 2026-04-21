@@ -10,7 +10,7 @@ import {
 } from "keycloakify/login/lib/useUserProfileForm"
 import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFormFieldsProps"
 import type { Attribute } from "keycloakify/login/KcContext"
-import { Eye, EyeSlash } from "@phosphor-icons/react"
+import { CaretDown, Eye, EyeSlash } from "@phosphor-icons/react"
 
 import { cn } from "@pangea/ui/lib/utils"
 import { Button } from "@pangea/ui/components/button"
@@ -22,7 +22,7 @@ import type { I18n } from "./i18n"
 import { KcTextInput } from "./components/kc-form"
 
 const selectClassName =
-  "flex h-12 w-full rounded-2xl border-transparent bg-muted px-4 py-2 text-base transition-colors outline-none hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-muted/60 dark:hover:bg-muted/70"
+  "flex h-12 w-full appearance-none rounded-2xl border-transparent bg-muted px-4 py-2 pr-10 text-base transition-colors outline-none hover:bg-muted/80 focus-visible:border-transparent focus-visible:bg-muted/70 focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-muted/60 dark:hover:bg-muted/70"
 
 function isFloatingCapable(attribute: Attribute) {
   const t = attribute.annotations.inputType
@@ -699,11 +699,32 @@ function SelectTag(props: InputFieldByTypeProps) {
 
   const isMultiple = attribute.annotations.inputType === "multiselect"
 
-  return (
+  const options = (() => {
+    walk: {
+      const { inputOptionsFromValidation } = attribute.annotations
+      if (inputOptionsFromValidation === undefined) break walk
+      assert(typeof inputOptionsFromValidation === "string")
+      const validator = (
+        attribute.validators as Record<string, { options?: string[] }>
+      )[inputOptionsFromValidation]
+      if (validator === undefined) break walk
+      if (validator.options === undefined) break walk
+      return validator.options
+    }
+    return attribute.validators.options?.options ?? []
+  })()
+
+  const optionNodes = options.map((option) => (
+    <option key={option} value={option}>
+      {inputLabel(i18n, attribute, option)}
+    </option>
+  ))
+
+  const select = (
     <select
       id={attribute.name}
       name={attribute.name}
-      className={selectClassName}
+      className={cn(selectClassName, isMultiple && "h-auto pr-4 py-2")}
       aria-invalid={displayableErrors.length !== 0}
       disabled={attribute.readOnly}
       multiple={isMultiple}
@@ -737,42 +758,20 @@ function SelectTag(props: InputFieldByTypeProps) {
       }
     >
       {!isMultiple && <option value=""></option>}
-      {(() => {
-        const options = (() => {
-          walk: {
-            const { inputOptionsFromValidation } = attribute.annotations
-
-            if (inputOptionsFromValidation === undefined) {
-              break walk
-            }
-
-            assert(typeof inputOptionsFromValidation === "string")
-
-            const validator = (
-              attribute.validators as Record<string, { options?: string[] }>
-            )[inputOptionsFromValidation]
-
-            if (validator === undefined) {
-              break walk
-            }
-
-            if (validator.options === undefined) {
-              break walk
-            }
-
-            return validator.options
-          }
-
-          return attribute.validators.options?.options ?? []
-        })()
-
-        return options.map((option) => (
-          <option key={option} value={option}>
-            {inputLabel(i18n, attribute, option)}
-          </option>
-        ))
-      })()}
+      {optionNodes}
     </select>
+  )
+
+  if (isMultiple) return select
+
+  return (
+    <div className="relative">
+      {select}
+      <CaretDown
+        className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-muted-foreground"
+        aria-hidden
+      />
+    </div>
   )
 }
 
